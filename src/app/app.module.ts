@@ -6,9 +6,10 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { ListMemoComponent } from './modules/memo-set/list-memo/list-memo.component';
 import { CardMemoComponent } from './modules/memo-set/card-memo/card-memo.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, ListMemoComponent, CardMemoComponent],
+  declarations: [AppComponent, HomeComponent, ListMemoComponent, CardMemoComponent, NavbarComponent],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],
   bootstrap: [AppComponent],
