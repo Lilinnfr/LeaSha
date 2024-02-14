@@ -7,9 +7,19 @@ import { HomeComponent } from './components/home/home.component';
 import { ListMemoComponent } from './modules/memo-set/list-memo/list-memo.component';
 import { CardMemoComponent } from './modules/memo-set/card-memo/card-memo.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { MemoSetComponent } from './modules/memo-set/memo-set.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, ListMemoComponent, CardMemoComponent, NavbarComponent],
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    MemoSetComponent,
+    ListMemoComponent,
+    CardMemoComponent,
+    NavbarComponent,
+    FooterComponent,
+  ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],
   bootstrap: [AppComponent],
