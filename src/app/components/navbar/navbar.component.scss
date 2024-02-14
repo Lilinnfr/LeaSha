@@ -1,0 +1,18 @@
+@import "../../variables.scss";
+
+nav {
+  background-color: $leasha-dark-beige;
+}
+
+.navbar-nav .nav-item .nav-link {
+  border: 1px solid transparent; /* Bordure transparente par défaut */
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+  border-color: $leasha-black;
+  border-radius: 5px;
+}
+
+.btn {
+  margin-left: 5px;
+}

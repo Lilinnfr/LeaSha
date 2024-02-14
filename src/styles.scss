@@ -1,1 +1,34 @@
-/* You can add global styles to this file, and also import other style files */
+@import "app/variables.scss";
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+.btn-primary {
+  background-color: $leasha-light-beige !important;
+}
+
+.btn-secondary {
+  background-color: $leasha-dark-beige !important;
+}
+
+.btn-outline-primary {
+  background-color: $leasha-light-beige !important;
+}
+
+.btn-outline-secondary {
+  color: $leasha-black;
+  background-color: $leasha-dark-beige !important;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 17px;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: $leasha-black;
+  background-color: $leasha-light-beige;
+}
