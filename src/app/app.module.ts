@@ -9,6 +9,7 @@ import { CardMemoComponent } from './modules/memo-set/card-memo/card-memo.compon
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { MemoSetComponent } from './modules/memo-set/memo-set.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { MemoSetComponent } from './modules/memo-set/memo-set.component';
     CardMemoComponent,
     NavbarComponent,
     FooterComponent,
+    LoginComponent,
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],
