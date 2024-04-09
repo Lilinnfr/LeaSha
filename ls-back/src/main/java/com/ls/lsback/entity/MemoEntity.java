@@ -36,6 +36,7 @@ public class MemoEntity {
     private Timestamp dateModif;
 
     @Column(name = "type_memo", length = 50)
+    @Enumerated(EnumType.STRING)
     private TypeMemo typeMemo;
 
     @ManyToOne(fetch = FetchType.LAZY)
