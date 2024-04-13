@@ -22,4 +22,9 @@ public class CategorieServiceImpl implements CategorieService {
         return categorieRepository.findAll();
     }
 
+    @Override
+    public CategorieEntity getCategorie(long id) {
+        return categorieRepository.findById(id).orElse(null);
+    }
+
 }

@@ -8,4 +8,5 @@ public interface CategorieService {
 
     List<CategorieEntity> listCategorie();
 
+    CategorieEntity getCategorie(long id);
 }
