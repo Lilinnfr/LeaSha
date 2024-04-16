@@ -7,7 +7,6 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -29,7 +28,7 @@ public class MemoCardEntity {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "memo", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "memoId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CardEntity> carte;
 
     @Column(name = "date_creation", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")

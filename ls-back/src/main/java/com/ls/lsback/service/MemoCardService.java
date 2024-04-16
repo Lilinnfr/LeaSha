@@ -13,4 +13,5 @@ public interface MemoCardService {
     MemoCardEntity addMemoCarte(MemoCardEntity memoCardEntity);
 
     boolean deleteMemoCarte(long id);
+
 }

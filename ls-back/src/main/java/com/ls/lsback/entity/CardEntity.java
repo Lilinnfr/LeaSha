@@ -1,5 +1,6 @@
 package com.ls.lsback.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,8 @@ public class CardEntity {
     private String verso;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "carte_id")
-    private MemoCardEntity memo;
+    @JoinColumn(name = "memo_id")
+    @JsonProperty("memo_id")
+    private MemoCardEntity memoId;
 
 }
