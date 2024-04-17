@@ -11,6 +11,8 @@ import { FooterComponent } from './components/footer/footer.component';
 import { MemoSetComponent } from './modules/memo-set/memo-set.component';
 import { LoginComponent } from './components/login/login.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { HttpClientModule } from '@angular/common/http';
+import { MemoRoutingModule } from './modules/memo-routing.module';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,12 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     LoginComponent,
     SidebarComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    MemoRoutingModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

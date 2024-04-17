@@ -5,13 +5,11 @@ import com.ls.lsback.service.CategorieService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins={"http://localhost:4200", "http://localhost:8080"})
 @RestController
 @RequestMapping("/categorie")
 @Slf4j
@@ -35,12 +33,12 @@ public class CategorieController {
 
     @GetMapping("/{id}")
     public ResponseEntity<CategorieEntity> getCategorieById(@PathVariable("id") long id) {
-        CategorieEntity cat = categorieService.getCategorie(id);
-        if (cat == null) {
+        CategorieEntity categorie = categorieService.getCategorie(id);
+        if (categorie == null) {
             log.info("Catégorie avec ID {} non trouvée", id);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(cat, HttpStatus.OK);
+        return new ResponseEntity<>(categorie, HttpStatus.OK);
     }
 
 }

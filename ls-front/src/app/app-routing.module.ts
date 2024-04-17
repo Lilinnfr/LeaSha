@@ -7,7 +7,12 @@ import { LoginComponent } from './components/login/login.component';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'Connexion', component: LoginComponent },
-  { path: 'Mes mémos', component: MemoSetComponent },
+  { path: 'Tous mes mémos', component: MemoSetComponent },
+  {
+    path: 'Mes mémos',
+    loadChildren: () =>
+      import('./modules/memo-routing.module').then((m) => m.MemoRoutingModule),
+  },
   { path: '**', redirectTo: 'landing', pathMatch: 'full' },
 ];
 
