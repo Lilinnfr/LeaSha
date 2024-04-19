@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-4" *ngFor="let cardMemo of cardMemos">
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="card-title">{{ cardMemo.titre }}</h5>
+          <a
+            [routerLink]="['/memoCarte/Mes mémos cartes/', cardMemo.id]"
+            class="btn btn-primary"
+            >Voir le mémo</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

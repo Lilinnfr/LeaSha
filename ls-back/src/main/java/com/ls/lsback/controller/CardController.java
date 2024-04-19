@@ -1,7 +1,12 @@
 package com.ls.lsback.controller;
 
 import com.ls.lsback.entity.CardEntity;
+import com.ls.lsback.entity.MemoCardEntity;
+import com.ls.lsback.repository.CardRepository;
+import com.ls.lsback.repository.MemoCardRepository;
 import com.ls.lsback.service.CardService;
+import com.ls.lsback.service.MemoCardService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,23 +24,25 @@ public class CardController {
 
     public CardController(CardService cardService) {
         this.cardService = cardService;
+
     }
 
-    @GetMapping("/liste")
-    public ResponseEntity<List<CardEntity>> listCard() {
-        List<CardEntity> cartes = cardService.listCarte();
-        if (cartes.isEmpty()) {
-            log.info("Cartes non dispo");
+    @GetMapping("/{memoId}")
+    public ResponseEntity<List<CardEntity>> listCardsByMemoId(@PathVariable("memoId") long memoId) {
+        try {
+            List<CardEntity> cartes = cardService.listCartesByMemo(memoId);
+            return new ResponseEntity<>(cartes, HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            log.info("Mémo non dispo");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(cartes, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<CardEntity> getCardById(@PathVariable("id") long id) {
+    @GetMapping("/{memoId}/{carteId}")
+    public ResponseEntity<CardEntity> getCardById(@PathVariable("memoId") long memoId, @PathVariable("carteId") long id) {
         CardEntity card = cardService.getCarte(id);
         if (card == null) {
-            log.info("Mémo avec ID {} non trouvé", id);
+            log.info("Carte avec ID {} non trouvé", id);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(card, HttpStatus.OK);

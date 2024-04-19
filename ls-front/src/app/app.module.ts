@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { ListMemoComponent } from './modules/memo-set/list-memo/list-memo.component';
-import { CardMemoComponent } from './modules/memo-set/card-memo/card-memo.component';
+import { CardMemoComponent } from './modules/memo-set/card-memo/one-card-memo/card-memo.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { MemoSetComponent } from './modules/memo-set/memo-set.component';
@@ -13,6 +13,7 @@ import { LoginComponent } from './components/login/login.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MemoRoutingModule } from './modules/memo-routing.module';
+import { AllCardMemosComponent } from './modules/memo-set/card-memo/all-card-memos/all-card-memos.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { MemoRoutingModule } from './modules/memo-routing.module';
     FooterComponent,
     LoginComponent,
     SidebarComponent,
+    AllCardMemosComponent,
   ],
   imports: [
     BrowserModule,

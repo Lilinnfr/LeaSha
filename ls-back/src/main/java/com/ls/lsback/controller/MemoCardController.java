@@ -25,7 +25,7 @@ public class MemoCardController {
         this.objectMapper = objectMapper;
     }
 
-    @GetMapping("/liste")
+    @GetMapping("/Mes mémos cartes")
     public ResponseEntity<List<MemoCardEntity>> listMemoCard() {
         List<MemoCardEntity> memos = memoCardService.listMemoCarte();
         if (memos.isEmpty()) {

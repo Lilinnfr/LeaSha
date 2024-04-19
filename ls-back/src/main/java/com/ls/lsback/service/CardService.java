@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CardService {
 
-    List<CardEntity> listCarte();
+    List<CardEntity> listCartesByMemo(long memoId);
 
     CardEntity getCarte(long id);
 
