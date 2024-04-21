@@ -1,33 +1,32 @@
 package com.ls.lsback.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator; // pour éviter l'erreur de sérialisation
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum CategorieMemo {
 
-    LANGUES(1L, "Langues"),
-    FRANCAIS(2L, "Français"),
-    MATHEMATIQUES(3L, "Mathématiques"),
-    CUISINE(4L, "Cuisine"),
-    AUTRES(5L, "Autres");
+    LANGUES("Langues"),
+    FRANCAIS("Français"),
+    MATHEMATIQUES("Mathématiques"),
+    CUISINE("Cuisine"),
+    AUTRES("Autres");
 
-    private final Long id;
     private final String libelle;
 
-    private CategorieMemo(Long id, String libelle) {
-        this.id = id;
+    private CategorieMemo(String libelle) {
         this.libelle = libelle;
     }
 
-    public Long getId() {
-        return id;
-    }
-
+    @JsonValue
     public String getLibelle() {
         return libelle;
     }
 
-    // Méthode pour rechercher une instance de l'énumération par son identifiant
-    public static CategorieMemo getById(Long id) {
+    // Méthode pour rechercher une instance de l'énumération par son libellé
+    @JsonCreator
+    public static CategorieMemo valueOfLibelle(String libelle) {
         for (CategorieMemo categorie : CategorieMemo.values()) {
-            if (categorie.getId().equals(id)) {
+            if (categorie.getLibelle().equalsIgnoreCase(libelle)) {
                 return categorie;
             }
         }

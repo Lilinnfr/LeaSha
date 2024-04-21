@@ -1,6 +1,7 @@
 package com.ls.lsback.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.ls.lsback.model.CategorieMemo;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,9 +37,9 @@ public class MemoListEntity {
     @Column(name = "date_modif", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp dateModif;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "categorie_id", referencedColumnName = "id")
-    private CategorieEntity categorieId;
+    @Column(name = "categorie", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private CategorieMemo categorie;
 
    /* @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creer_par")

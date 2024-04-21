@@ -1,6 +1,5 @@
 package com.ls.lsback.controller;
 
-import com.ls.lsback.entity.CategorieEntity;
 import com.ls.lsback.entity.UtilisateurEntity;
 import com.ls.lsback.service.UtilisateurService;
 import lombok.extern.slf4j.Slf4j;
