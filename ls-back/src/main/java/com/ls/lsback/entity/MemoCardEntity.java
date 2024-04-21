@@ -28,9 +28,6 @@ public class MemoCardEntity {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "memoId", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CardEntity> carte;
-
     @Column(name = "date_creation", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp dateCreation;
 
