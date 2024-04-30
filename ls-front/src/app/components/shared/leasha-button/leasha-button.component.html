@@ -1,0 +1,10 @@
+<button
+  [ngClass]="getButtonClasses()"
+  type="{{ getButtonType() }}"
+  [routerLink]="routerLink"
+  (click)="onClick()"
+  [disabled]="disabled"
+  [attr.aria-controls]="modalId"
+>
+  {{ buttonText }}
+</button>

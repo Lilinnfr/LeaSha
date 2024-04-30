@@ -6,11 +6,29 @@
           <h5 class="card-title">{{ cardMemo.titre }}</h5>
           <a
             [routerLink]="['/memoCarte/Mes mémos cartes/', cardMemo.id]"
-            class="btn btn-primary"
+            class="btn btn-style"
             >Voir le mémo</a
           >
         </div>
       </div>
     </div>
   </div>
+  <div>
+    <app-leasha-button
+      buttonText="Ajouter un mémo"
+      (click)="addMemoDialog.show()"
+    >
+      Ajouter un mémo
+    </app-leasha-button>
+  </div>
 </div>
+<dialog #addMemoDialog>
+  <div>
+    <h3>Ajouter un mémo</h3>
+    <input type="text" />
+    <input type="text" />
+    <app-leasha-button buttonText="Ajouter" (click)="addMemoDialog.close()">
+      Ajouter
+    </app-leasha-button>
+  </div>
+</dialog>

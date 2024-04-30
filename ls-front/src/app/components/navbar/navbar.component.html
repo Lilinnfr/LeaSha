@@ -51,20 +51,20 @@
     <form class="form-inline my-2 my-lg-0">
       <div class="input-group">
         <input
-          class="form-control mr-sm-2"
+          class="form-control mr-sm-2 searchInput"
           type="search"
-          placeholder="Rechercher"
+          placeholder="Rechercher..."
           aria-label="Search"
         />
-        <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">
-          Rechercher
-        </button>
+        <button type="submit" class="searchButton">Rechercher</button>
       </div>
     </form>
     <div class="ml-auto">
-      <button [routerLink]="['/Connexion']" class="btn btn-outline-secondary">
-        Se connecter / S'inscrire
-      </button>
+      <app-leasha-button
+        routerLink="/Connexion"
+        buttonText="Se connecter / S'inscrire"
+      >
+      </app-leasha-button>
     </div>
     <div class="dropdown">
       <a

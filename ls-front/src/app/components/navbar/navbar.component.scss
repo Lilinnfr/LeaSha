@@ -5,7 +5,7 @@ nav {
 }
 
 .navbar-nav .nav-item .nav-link {
-  border: 1px solid transparent; /* Bordure transparente par défaut */
+  border: 1px solid transparent;
 }
 
 .navbar-nav .nav-item .nav-link:hover {
@@ -13,6 +13,26 @@ nav {
   border-radius: 5px;
 }
 
-.btn {
-  margin-left: 5px;
+.input-group {
+  display: flex;
+  align-items: center;
+}
+
+.searchInput {
+  height: 45px;
+}
+
+.searchButton {
+  padding: 10px 20px;
+  margin: 10px;
+  border: 1px solid $leasha-black;
+  border-radius: 0 5px 5px 0;
+  background-color: $leasha-light-beige;
+  color: $leasha-black;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.searchButton:hover {
+  background-color: $leasha-dark-beige;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
 }

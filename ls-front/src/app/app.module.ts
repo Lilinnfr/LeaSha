@@ -14,6 +14,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MemoRoutingModule } from './modules/memo-routing.module';
 import { AllCardMemosComponent } from './modules/memo-set/card-memo/all-card-memos/all-card-memos.component';
+import { LeashaButtonComponent } from './components/shared/leasha-button/leasha-button.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { AllCardMemosComponent } from './modules/memo-set/card-memo/all-card-mem
     LoginComponent,
     SidebarComponent,
     AllCardMemosComponent,
+    LeashaButtonComponent,
   ],
   imports: [
     BrowserModule,
