@@ -53,11 +53,12 @@ public class MemoCardController {
 
     @DeleteMapping("/suppression/{id}")
     public ResponseEntity<Void> deleteMemoCardById(@PathVariable long id) {
-        boolean deletedMemo = memoCardService.deleteMemoCarte(id);
-        if (deletedMemo) {
+        try {
+            memoCardService.deleteMemoCarte(id);
             return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            log.error("Une erreur s'est produite lors de la suppression du mémo avec l'ID : {}", id, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 

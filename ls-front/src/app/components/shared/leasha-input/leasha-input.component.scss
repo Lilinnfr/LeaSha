@@ -1,0 +1,28 @@
+@import "../../../variables.scss";
+
+.input-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.input {
+  padding: 10px 15px;
+  border: 1px solid $leasha-black;
+  background-color: $leasha-light-beige;
+  color: $leasha-black;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.input:focus {
+  outline: none;
+  background-color: $leasha-white;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+}

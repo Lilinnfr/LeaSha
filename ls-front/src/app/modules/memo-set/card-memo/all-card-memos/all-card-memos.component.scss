@@ -1,13 +1,21 @@
 @import "../../../../variables.scss";
 
 dialog {
+  position: fixed;
+  top: 25%;
+  min-width: 300px;
+  max-width: 90%;
   background-color: $leasha-light-beige;
   border-color: transparent;
   overflow: hidden;
   border-radius: 5px;
   box-shadow: 0 0 20px 8px #d0d0d0;
-  height: 200px;
-  width: 300px;
+  height: auto;
+}
+
+textarea {
+  height: 100px;
+  overflow-y: auto;
 }
 
 .btn-style {

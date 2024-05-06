@@ -25,8 +25,33 @@
 <dialog #addMemoDialog>
   <div>
     <h3>Ajouter un mémo</h3>
-    <input type="text" />
-    <input type="text" />
+    <app-leasha-input
+      id="memo"
+      label="Titre * :"
+      type="text"
+      name="memo"
+      placeholder="Saisir le titre du mémo..."
+    ></app-leasha-input>
+    <label>Type de mémo :</label>
+    <select class="form-select mb-2">
+      <option value="" disabled selected hidden>
+        Sélectionner un type de mémo
+      </option>
+      <option value="Langues">Langues étrangères</option>
+      <option value="Français">Français</option>
+      <option value="Mathématiques">Mathématiques</option>
+      <option value="Cuisine">Cuisine</option>
+      <option value="Autres">Autres</option>
+    </select>
+
+    <label>Description :</label>
+    <textarea
+      id="description"
+      name="description"
+      class="form-control mb-2"
+      rows="5"
+      placeholder="Saisir une description..."
+    ></textarea>
     <app-leasha-button buttonText="Ajouter" (click)="addMemoDialog.close()">
       Ajouter
     </app-leasha-button>

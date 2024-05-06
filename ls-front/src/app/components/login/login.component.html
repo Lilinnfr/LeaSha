@@ -3,27 +3,26 @@
   style="height: 100vh"
 >
   <div>
-    <label for="username">Pseudo:</label>
-    <input
-      type="text"
+    <app-leasha-input
       id="username"
+      label="Pseudo :"
+      type="text"
       name="username"
-      class="form-control mb-2"
-    />
+      placeholder="Saisir un pseudo"
+    ></app-leasha-input>
 
-    <div class="mb-2">
-      <label for="pass">Mot de passe:</label>
-      <input
-        type="password"
-        id="pass"
-        name="password"
-        minlength="8"
-        required
-        class="form-control"
-      />
-    </div>
+    <app-leasha-input
+      id="pass"
+      label="Mot de passe :"
+      type="password"
+      name="password"
+      minlength="8"
+      placeholder="Saisir un mot de passe"
+    ></app-leasha-input>
 
-    <app-leasha-button type="submit" buttonText="Se connecter">
-    </app-leasha-button>
+    <app-leasha-button
+      type="submit"
+      buttonText="Se connecter"
+    ></app-leasha-button>
   </div>
 </div>

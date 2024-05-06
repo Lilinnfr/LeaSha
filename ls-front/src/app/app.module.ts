@@ -15,6 +15,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MemoRoutingModule } from './modules/memo-routing.module';
 import { AllCardMemosComponent } from './modules/memo-set/card-memo/all-card-memos/all-card-memos.component';
 import { LeashaButtonComponent } from './components/shared/leasha-button/leasha-button.component';
+import { LeashaInputComponent } from './components/shared/leasha-input/leasha-input.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { LeashaButtonComponent } from './components/shared/leasha-button/leasha-
     SidebarComponent,
     AllCardMemosComponent,
     LeashaButtonComponent,
+    LeashaInputComponent,
   ],
   imports: [
     BrowserModule,

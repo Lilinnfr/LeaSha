@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { MemoCardService } from '../../services/memo-card.service';
 import { MemoCard } from '../../models/memo-card';

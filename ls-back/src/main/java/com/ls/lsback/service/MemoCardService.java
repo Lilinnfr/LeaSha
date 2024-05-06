@@ -12,6 +12,6 @@ public interface MemoCardService {
 
     MemoCardEntity addMemoCarte(MemoCardEntity memoCardEntity);
 
-    boolean deleteMemoCarte(long id);
+    public void deleteMemoCarte(long id);
 
 }

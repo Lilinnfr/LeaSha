@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ls.lsback.entity.MemoCardEntity;
 import com.ls.lsback.repository.MemoCardRepository;
 import com.ls.lsback.service.MemoCardService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,13 +36,12 @@ public class MemoCardServiceImpl implements MemoCardService {
     }
 
     @Override
-    public boolean deleteMemoCarte(long id) {
+    public void deleteMemoCarte(long id) {
         Optional<MemoCardEntity> memo = memoCardRepository.findById(id);
         if (memo.isPresent()) {
             memoCardRepository.deleteById(id);
-            return true;
         } else {
-            return false;
+            throw new EntityNotFoundException("Le mémo avec l'ID " + id + " n'existe pas.");
         }
     }
 }
