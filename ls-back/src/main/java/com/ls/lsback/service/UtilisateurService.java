@@ -8,4 +8,8 @@ public interface UtilisateurService {
 
     List<UtilisateurEntity> listUtilisateur();
 
+    UtilisateurEntity addUtilisateur(UtilisateurEntity utilisateurEntity);
+
+    public void deleteUtilisateur(long id);
+
 }

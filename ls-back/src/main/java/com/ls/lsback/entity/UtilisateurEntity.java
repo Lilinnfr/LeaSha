@@ -5,8 +5,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.sql.Timestamp;
+import java.util.Collection;
 
 @Entity
 @Table(name = "utilisateur")
@@ -14,7 +17,7 @@ import java.sql.Timestamp;
 @Setter
 @NoArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class UtilisateurEntity {
+public class UtilisateurEntity implements UserDetails {
 
     @Id
     @Column(name = "id")
@@ -24,8 +27,8 @@ public class UtilisateurEntity {
     @Column(name = "identifiant", nullable = false)
     private String identifiant;
 
-    @Column(name = "courriel", nullable = false)
-    private String courriel;
+    @Column(name = "email", nullable = false)
+    private String email;
 
     @Column(name = "mot_de_passe", nullable = false)
     private String motDePasse;
@@ -36,11 +39,47 @@ public class UtilisateurEntity {
     @Column(name = "date_modif", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp dateModif;
 
-    @Column(name = "infos", columnDefinition = "JSONB")
+    @Column(name = "infos")
     private String infos;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "memo_id", referencedColumnName = "id")
     private MemoCardEntity memo;
 
+    private boolean actif = false;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.motDePasse;
+    }
+
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return this.actif;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return this.actif;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return this.actif;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return this.actif;
+    }
 }

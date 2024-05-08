@@ -5,10 +5,7 @@ import com.ls.lsback.service.UtilisateurService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @CrossOrigin(origins={"http://localhost:4200", "http://localhost:8080"})
@@ -31,5 +28,22 @@ public class UtilisateurController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(utilisateurs, HttpStatus.OK);
+    }
+
+    @PostMapping("/inscription")
+    public ResponseEntity<UtilisateurEntity> createUtilisateur(@RequestBody UtilisateurEntity utilisateurEntity) {
+        UtilisateurEntity nouvelUtilisateur = utilisateurService.addUtilisateur(utilisateurEntity);
+        return new ResponseEntity<>(nouvelUtilisateur, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/suppression/{id}")
+    public ResponseEntity<Void> deleteUtilisateurById(@PathVariable long id) {
+        try {
+            utilisateurService.deleteUtilisateur(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            log.error("Une erreur s'est produite lors de la suppression de l'utilisateur avec l'ID : {}", id, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }
