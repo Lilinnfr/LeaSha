@@ -45,4 +45,8 @@ public class ValidationService {
         this.notificationService.send(validation);
     }
 
+    public ValidationEntity getValidationByCode(String code) {
+        return this.validationRepository.findByCode(code).orElseThrow(() -> new RuntimeException("Votre code est invalide"));
+    }
+
 }

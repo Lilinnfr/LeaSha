@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+
 @CrossOrigin(origins={"http://localhost:4200", "http://localhost:8080"})
 @RestController
 @RequestMapping(value = "/utilisateur")
@@ -34,6 +36,11 @@ public class UtilisateurController {
     public ResponseEntity<UtilisateurEntity> createUtilisateur(@RequestBody UtilisateurEntity utilisateurEntity) {
         UtilisateurEntity nouvelUtilisateur = utilisateurService.addUtilisateur(utilisateurEntity);
         return new ResponseEntity<>(nouvelUtilisateur, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/activation")
+    public void activation(@RequestBody Map<String, String> activation) {
+        this.utilisateurService.activation(activation);
     }
 
     @DeleteMapping("/suppression/{id}")

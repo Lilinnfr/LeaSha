@@ -23,6 +23,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // si je fait un post au niveau de l'inscription, on laisse passer
                         .requestMatchers(HttpMethod.POST,"utilisateur/inscription").permitAll()
+                        // idem pour l'activation du compte
+                        .requestMatchers(HttpMethod.POST,"utilisateur/activation").permitAll()
                         // sinon il faut être authentifié
                         .anyRequest().authenticated()
                 )
