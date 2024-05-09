@@ -3,6 +3,7 @@ package com.ls.lsback.service.impl;
 import com.ls.lsback.entity.UtilisateurEntity;
 import com.ls.lsback.repository.UtilisateurRepository;
 import com.ls.lsback.service.UtilisateurService;
+import com.ls.lsback.service.ValidationService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,11 +17,13 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
     private final UtilisateurRepository utilisateurRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final ValidationService validationService;
 
     @Autowired
-    public UtilisateurServiceImpl(UtilisateurRepository utilisateurRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UtilisateurServiceImpl(UtilisateurRepository utilisateurRepository, BCryptPasswordEncoder passwordEncoder, ValidationService validationService) {
         this.utilisateurRepository = utilisateurRepository;
         this.passwordEncoder = passwordEncoder;
+        this.validationService = validationService;
     }
 
     public List<UtilisateurEntity> listUtilisateur() {
@@ -43,7 +46,10 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         // puis on attribue le mot de passe crypté à l'utilisateur
         utilisateurEntity.setMotDePasse(encryptedPassword);
         // et enfin, on enregistre le nouvel utilisateur
-        return utilisateurRepository.save(utilisateurEntity);
+        UtilisateurEntity nouvelUtilisateur = utilisateurRepository.save(utilisateurEntity);
+        // utilise le service de validation
+        validationService.saveUser(nouvelUtilisateur);
+        return nouvelUtilisateur;
     }
 
     @Override
