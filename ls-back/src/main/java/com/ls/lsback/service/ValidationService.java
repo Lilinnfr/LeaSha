@@ -13,9 +13,11 @@ import java.util.Random;
 public class ValidationService {
 
     private final ValidationRepository validationRepository;
+    private final NotificationService notificationService;
 
-    public ValidationService(ValidationRepository validationRepository) {
+    public ValidationService(ValidationRepository validationRepository, NotificationService notificationService) {
         this.validationRepository = validationRepository;
+        this.notificationService = notificationService;
     }
 
     public void saveUser(UtilisateurEntity utilisateurEntity) {
@@ -36,9 +38,11 @@ public class ValidationService {
         int randomInteger = random.nextInt(999999);
         String code = String.format("%06d", randomInteger);
 
+        // on le définit et on l'enregistre
         validation.setCode(code);
         this.validationRepository.save(validation);
-
+        // grâce à notre service de validation, on va pouvoir envoyer l'email à l'utilisateur avec son code
+        this.notificationService.send(validation);
     }
 
 }
