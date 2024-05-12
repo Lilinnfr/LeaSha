@@ -45,10 +45,16 @@ public class MemoCardController {
         return new ResponseEntity<>(memo, HttpStatus.OK);
     }
 
-    @PostMapping("/creation")
+/*    @PostMapping("/creation")
     public ResponseEntity<MemoCardEntity> createMemoCard(@RequestBody MemoCardEntity memoCardEntity) {
         MemoCardEntity createdMemo = memoCardService.addMemoCarte(memoCardEntity);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdMemo);
+    }*/
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/creation")
+    public void createMemoCard(@RequestBody MemoCardEntity memoCardEntity) {
+      this.memoCardService.addMemoCarte(memoCardEntity);
     }
 
     @DeleteMapping("/suppression/{id}")

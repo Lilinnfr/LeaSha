@@ -2,6 +2,7 @@ package com.ls.lsback.controller;
 
 import com.ls.lsback.dto.AuthenticationDTO;
 import com.ls.lsback.entity.UtilisateurEntity;
+import com.ls.lsback.security.JwtService;
 import com.ls.lsback.service.UtilisateurService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,10 +22,13 @@ import java.util.Map;
 public class UtilisateurController {
 
     private final UtilisateurService utilisateurService;
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
 
-    public UtilisateurController(UtilisateurService utilisateurService) {
+    public UtilisateurController(UtilisateurService utilisateurService, AuthenticationManager authenticationManager, JwtService jwtService) {
         this.utilisateurService = utilisateurService;
+        this.authenticationManager = authenticationManager;
+        this.jwtService = jwtService;
     }
 
     @GetMapping("/liste")
@@ -64,7 +68,9 @@ public class UtilisateurController {
         final Authentication authenticate = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authenticationDTO.username(), authenticationDTO.password())
         );
-        log.info("resultat {}", authenticate.isAuthenticated());
+        if (authenticate.isAuthenticated()) {
+            return this.jwtService.generate(authenticationDTO.username());
+        }
         return null;
     }
 }

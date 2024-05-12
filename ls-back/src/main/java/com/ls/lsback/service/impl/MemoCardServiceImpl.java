@@ -2,10 +2,12 @@ package com.ls.lsback.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ls.lsback.entity.MemoCardEntity;
+import com.ls.lsback.entity.UtilisateurEntity;
 import com.ls.lsback.repository.MemoCardRepository;
 import com.ls.lsback.service.MemoCardService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,9 +32,10 @@ public class MemoCardServiceImpl implements MemoCardService {
         return memoCardRepository.findById(id).orElse(null);
     }
 
-    @Override
-    public MemoCardEntity addMemoCarte(MemoCardEntity memoCardEntity) {
-        return memoCardRepository.save(memoCardEntity);
+    public void addMemoCarte(MemoCardEntity memoCard) {
+        UtilisateurEntity utilisateur = (UtilisateurEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        memoCard.setUtilisateur(utilisateur);
+        this.memoCardRepository.save(memoCard);
     }
 
     @Override

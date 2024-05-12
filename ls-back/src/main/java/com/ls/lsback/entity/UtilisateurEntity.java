@@ -42,10 +42,6 @@ public class UtilisateurEntity implements UserDetails {
     @Column(name = "infos")
     private String infos;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "memo_id", referencedColumnName = "id")
-    private MemoCardEntity memo;
-
     private boolean actif = false;
 
     @Override

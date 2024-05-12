@@ -39,7 +39,8 @@ public class MemoCardEntity {
     @Enumerated(EnumType.STRING)
     private CategorieMemo categorie;
 
-   /* @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "creer_par")
-    private UtilisateurEntity creerPar;*/
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "utilisateur_id", referencedColumnName = "id")
+    private UtilisateurEntity utilisateur;
+
 }
