@@ -28,7 +28,7 @@ public class ValidationEntity {
     // le code en question
     private String code;
     // l'utilisateur
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH})
     private UtilisateurEntity utilisateur;
 
 }

@@ -36,12 +36,13 @@ public class SecurityConfig {
         http
                 .csrf((AbstractHttpConfigurer::disable))
                 .authorizeHttpRequests(auth -> auth
-                        // si je fait un post au niveau de l'inscription, on laisse passer
+                        // si je fait une requête niveau de l'inscription ou tout autre endroit qui ne nécessite pas une authentification, on laisse passer
                         .requestMatchers(HttpMethod.POST,"utilisateur/inscription").permitAll()
-                        // idem pour l'activation du compte
                         .requestMatchers(HttpMethod.POST,"utilisateur/activation").permitAll()
-                        // idem pour la connexion
                         .requestMatchers(HttpMethod.POST,"utilisateur/connexion").permitAll()
+                        .requestMatchers(HttpMethod.POST,"utilisateur/modificationMdp").permitAll()
+                        .requestMatchers(HttpMethod.POST,"utilisateur/nouveauMdp").permitAll()
+                        .requestMatchers(HttpMethod.POST,"utilisateur/refresh_token").permitAll()
                         // sinon il faut être authentifié
                         .anyRequest().authenticated()
                 )

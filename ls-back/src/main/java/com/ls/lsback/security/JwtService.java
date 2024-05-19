@@ -1,6 +1,7 @@
 package com.ls.lsback.security;
 
 import com.ls.lsback.entity.JwtEntity;
+import com.ls.lsback.entity.RefreshTokenEntity;
 import com.ls.lsback.entity.UtilisateurEntity;
 import com.ls.lsback.repository.JwtRepository;
 import com.ls.lsback.service.UtilisateurService;
@@ -21,6 +22,7 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -32,32 +34,48 @@ public class JwtService {
 
     private UtilisateurService utilisateurService;
     private static final String BEARER = "bearer";
+    public static final String REFRESH = "refresh";
+    public static final String TOKEN_INVALIDE = "Token invalide";
     private final String ENCRYPTION_KEY = "bG9zc3BsdXJhbHN3dW5nZW5lbXlwb2xpY2VtYW5wZXJzb25hbGluc2lkZW5ld3NwYXA=";
     private JwtRepository jwtRepository;
 
+    // retourne un jwt et un refresh token pour l'utilisateur
     public Map<String, String> generate(String username) {
         // on s'assure que le username est dans la base de données
-        UtilisateurEntity utilisateur = (UtilisateurEntity) this.utilisateurService.loadUserByUsername(username);
+        UtilisateurEntity utilisateur = this.utilisateurService.loadUserByUsername(username);
         this.disableTokens(utilisateur);
         // on appelle la méthode pour générer le jwt pour l'utilisateur
-        Map<String, String> jwtMap = this.generateJwt(utilisateur);
+        final Map<String, String> jwtMap = new java.util.HashMap<>(this.generateJwt(utilisateur));
+        // on définit le refresh token
+        RefreshTokenEntity refreshToken = RefreshTokenEntity.builder()
+                .valeur(UUID.randomUUID().toString())
+                .expire(false)
+                .creation(Instant.now())
+                .expiration(Instant.now().plusMillis(30 *60 *1000))
+                .build();
+
+
         final JwtEntity jwt = JwtEntity
                 .builder()
                 .valeur(jwtMap.get(BEARER))
                 .desactive(false)
                 .expire(false)
                 .utilisateur(utilisateur)
+                .refreshToken(refreshToken)
                 .build();
+
         this.jwtRepository.save(jwt);
+        jwtMap.put(REFRESH,  refreshToken.getValeur());
         return jwtMap;
     }
 
+    // génère un jwt pour l'utilisateur
     private Map<String, String> generateJwt(UtilisateurEntity utilisateur) {
-        long currentTime = System.currentTimeMillis();
-        long expirationTime = currentTime + 30 * 60 * 1000;
+        final long currentTime = System.currentTimeMillis();
+        final long expirationTime = currentTime + 60 * 1000;
 
         // on définit les claims
-        Map<String, Object> claims = Map.of(
+        final Map<String, Object> claims = Map.of(
                 "username", utilisateur.getUsername(),
                 Claims.EXPIRATION, new Date(expirationTime),
                 Claims.SUBJECT, utilisateur.getEmail()
@@ -75,9 +93,10 @@ public class JwtService {
                 // algorithme de signature
                 .signWith(getKey(), SignatureAlgorithm.HS256)
                 .compact();
-        return Map.of("bearer", bearer);
+        return Map.of(BEARER, bearer);
     }
 
+    // retourne la clé de signature à partir de la clé de chiffrement
     private Key getKey() {
         final byte[] decoder = Decoders.BASE64.decode(ENCRYPTION_KEY);
         return Keys.hmacShaKeyFor(decoder);
@@ -88,18 +107,26 @@ public class JwtService {
         return this.getClaim(token, Claims::getSubject);
     }
 
+    // vérifie si un token a expiré. true si le token a expiré, sinon false
     public boolean isTokenExpired(String token) {
         // va chercher les claims depuis la date
         Date expirationDate = this.getClaim(token, Claims::getExpiration);
         return expirationDate.before(new Date());
     }
 
+    // récupère une "claim" spécifique à partir d'un token
+    // token, le token à analyser
+    // function, la fonction pour extraire la claim
+    // <T>, le type de la claim
+    // retourne la claim extraite
     private <T> T getClaim(String token, Function<Claims, T> function) {
         Claims claims = getAllClaims((token));
         return function.apply(claims);
     }
 
-    // récupération de tous les claims grâce au token
+    // récupération de toutes les "claims" à partir d'un token
+    // token, le token en question
+    // retourne les "claims" contenues dans le token
     private Claims getAllClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(this.getKey())
@@ -108,11 +135,13 @@ public class JwtService {
                 .getBody();
     }
 
+    // récupère un jwt à partir de sa valeur
     public JwtEntity tokenByValue(String value) {
         return this.jwtRepository.findByValeurAndDesactiveAndExpire(value, false, false)
                 .orElseThrow(() -> new RuntimeException("Token invalide ou inconnu"));
     }
 
+    // désactive tous les tokens d'un utilisateur
     public void disableTokens(UtilisateurEntity utilisateur) {
         final List<JwtEntity> jwtList = this.jwtRepository.findUser(utilisateur.getEmail()).peek(
                 jwt -> {
@@ -123,6 +152,7 @@ public class JwtService {
         this.jwtRepository.saveAll(jwtList);
     }
 
+    // déconnecte l'utilisateur et désactive son token
     public void deconnexion() {
         // on récupère l'utilisateur connecté
         UtilisateurEntity utilisateur = (UtilisateurEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -137,10 +167,20 @@ public class JwtService {
         this.jwtRepository.save(jwt);
     }
 
+    // on supprime les tokens inactifs toutes les minutes
     @Scheduled(cron = "0 */1 * * * *")
     public void removeUselessJwt() {
-        log.info("Suppression des token à {}", Instant.now());
+        log.info("Suppression des tokens à {}", Instant.now());
         this.jwtRepository.deleteAllByExpireAndDesactive(true, true);
     }
-    
+
+    // rafraichit le token
+    public Map<String, String> refreshToken(Map<String, String> refreshTokenRequest) {
+        final JwtEntity jwt = this.jwtRepository.findByRefreshToken(refreshTokenRequest.get(REFRESH)).orElseThrow(() -> new RuntimeException(TOKEN_INVALIDE));
+        if(jwt.getRefreshToken().isExpire() || jwt.getRefreshToken().getExpiration().isBefore(Instant.now())) {
+            throw new RuntimeException(TOKEN_INVALIDE);
+        }
+        this.disableTokens(jwt.getUtilisateur());
+        return this.generate(jwt.getUtilisateur().getEmail());
+    }
 }

@@ -78,4 +78,18 @@ public class UtilisateurController {
     public void deconnexion() {
         this.jwtService.deconnexion();
     }
+
+    @PostMapping("/modificationMdp")
+    public void modifierMdp(@RequestBody Map<String, String> activation) {
+        this.utilisateurService.changePassword(activation);
+    }
+    @PostMapping("/nouveauMdp")
+    public void nouveauMdp(@RequestBody Map<String, String> activation) {
+        this.utilisateurService.newPassword(activation);
+    }
+
+    @PostMapping(path = "refresh-token")
+    public @ResponseBody Map<String, String> refreshToken(@RequestBody Map<String, String> refreshTokenRequest) {
+        return this.jwtService.refreshToken(refreshTokenRequest);
+    }
 }

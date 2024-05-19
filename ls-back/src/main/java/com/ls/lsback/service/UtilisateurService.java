@@ -34,6 +34,9 @@ public class UtilisateurService implements UserDetailsService {
         if (!utilisateurEntity.getEmail().contains("@")) {
             throw new RuntimeException("Le format est invalide");
         }
+        if (!utilisateurEntity.getEmail().contains(".")) {
+            throw new RuntimeException("Le format est invalide");
+        }
         // on récupère l'email de l'utilisateur
         Optional<UtilisateurEntity> utilisateur = this.utilisateurRepository.findByEmail(utilisateurEntity.getEmail());
         if (utilisateur.isPresent()) {
@@ -75,9 +78,29 @@ public class UtilisateurService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UtilisateurEntity loadUserByUsername(String username) throws UsernameNotFoundException {
+        // on va chercher l'utilisateur
         return this.utilisateurRepository
                 .findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("Aucun utilisateur ne correspond à cet identifiant"));
+    }
+
+    public void changePassword(Map<String, String> param) {
+        UtilisateurEntity utilisateur = this.loadUserByUsername(param.get("email"));
+        this.validationService.saveUser(utilisateur);
+    }
+
+    public void newPassword(Map<String, String> param) {
+        // on va chercher l'utilisateur
+        UtilisateurEntity utilisateur = this.loadUserByUsername(param.get("email"));
+        // on récupère le code d'activation
+        ValidationEntity validation = validationService.getValidationByCode(param.get("code"));
+        // si l'email de l'utilisateur est le même que celui de la base de données
+        if (validation.getUtilisateur().getEmail().equals(utilisateur.getEmail())) {
+            // on récupère son nouveau mot de passe pour l'encrypter
+            String encryptedPassword = this.passwordEncoder.encode(param.get("password"));
+            utilisateur.setMotDePasse(encryptedPassword);
+            this.utilisateurRepository.save(utilisateur);
+        }
     }
 
 }

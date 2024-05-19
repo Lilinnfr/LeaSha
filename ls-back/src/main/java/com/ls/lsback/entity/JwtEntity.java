@@ -14,10 +14,15 @@ public class JwtEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
+
     private String valeur;
     private boolean desactive;
     private boolean expire;
+
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private RefreshTokenEntity refreshToken;
+
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE})
     @JoinColumn(name = "utilisateur_id")
     private UtilisateurEntity utilisateur;
