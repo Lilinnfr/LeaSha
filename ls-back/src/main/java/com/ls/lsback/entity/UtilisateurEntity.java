@@ -24,14 +24,14 @@ public class UtilisateurEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "identifiant", nullable = false)
-    private String identifiant;
+    @Column(name = "username", nullable = false)
+    private String username;
 
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "mot_de_passe", nullable = false)
-    private String motDePasse;
+    @Column(name = "password", nullable = false)
+    private String password;
 
     @Column(name = "date_creation", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp dateCreation;
@@ -55,7 +55,7 @@ public class UtilisateurEntity implements UserDetails {
 
     @Override
     public String getPassword() {
-        return this.motDePasse;
+        return this.password;
     }
 
 

@@ -45,7 +45,7 @@ public class UtilisateurService implements UserDetailsService {
         // on récupère le mot de passe utilisateur pour le crypter
         String encryptedPassword = this.passwordEncoder.encode(utilisateurEntity.getPassword());
         // puis on attribue le mot de passe crypté à l'utilisateur
-        utilisateurEntity.setMotDePasse(encryptedPassword);
+        utilisateurEntity.setPassword(encryptedPassword);
         // et enfin, on enregistre le nouvel utilisateur
         UtilisateurEntity nouvelUtilisateur = utilisateurRepository.save(utilisateurEntity);
         // utilise le service de validation
@@ -56,7 +56,7 @@ public class UtilisateurService implements UserDetailsService {
     public void activation(Map<String, String> activation) {
         // stocke la validation
         ValidationEntity validation = this.validationService.getValidationByCode(activation.get("code"));
-        // si l'horaire où l'utilisateur vient aciver son compte arrive après l'horaire d'expiration, on envoie une exception
+        // si le moment où l'utilisateur vient activer son compte arrive après le moment d'expiration, on envoie une exception
         if (Instant.now().isAfter(validation.getExpiration())) {
             throw new RuntimeException("Votre code a expiré");
         }
@@ -98,7 +98,7 @@ public class UtilisateurService implements UserDetailsService {
         if (validation.getUtilisateur().getEmail().equals(utilisateur.getEmail())) {
             // on récupère son nouveau mot de passe pour l'encrypter
             String encryptedPassword = this.passwordEncoder.encode(param.get("password"));
-            utilisateur.setMotDePasse(encryptedPassword);
+            utilisateur.setPassword(encryptedPassword);
             this.utilisateurRepository.save(utilisateur);
         }
     }

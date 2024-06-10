@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { AbstractControl, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-leasha-input',
@@ -11,6 +12,11 @@ export class LeashaInputComponent {
   @Input() id?: string;
   @Input() name?: string;
   @Input() placeholder?: string;
+  @Input() control?: AbstractControl | null;
+
+  get formControl(): FormControl {
+    return this.control as FormControl;
+  }
 
   value: string = '';
 }

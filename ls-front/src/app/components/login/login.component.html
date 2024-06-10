@@ -1,28 +1,105 @@
 <div
-  class="d-flex justify-content-center align-items-center login"
+  class="d-flex justify-content-center align-items-center login-page"
   style="height: 100vh"
 >
-  <div>
-    <app-leasha-input
-      id="username"
-      label="Pseudo :"
-      type="text"
-      name="username"
-      placeholder="Saisir un pseudo"
-    ></app-leasha-input>
+  <div class="registration-section">
+    <h2 class="title">Inscription</h2>
+    <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+      <app-leasha-input
+        *ngIf="registerForm.get('username') as registerUsernameControl"
+        [control]="registerUsernameControl"
+        id="register-username"
+        label="Pseudo :"
+        type="text"
+        name="username"
+        placeholder="Saisir un pseudo"
+      ></app-leasha-input>
+      <app-leasha-input
+        *ngIf="registerForm.get('email') as registerEmailControl"
+        [control]="registerEmailControl"
+        id="register-email"
+        label="Email :"
+        type="email"
+        name="email"
+        placeholder="Saisir un email"
+      ></app-leasha-input>
+      <app-leasha-input
+        *ngIf="registerForm.get('password') as registerPasswordControl"
+        [control]="registerPasswordControl"
+        id="register-password"
+        label="Mot de passe :"
+        type="password"
+        name="password"
+        placeholder="Saisir un mot de passe"
+      ></app-leasha-input>
+      <app-leasha-button
+        type="submit"
+        buttonText="S'inscrire"
+      ></app-leasha-button>
+    </form>
+  </div>
 
-    <app-leasha-input
-      id="pass"
-      label="Mot de passe :"
-      type="password"
-      name="password"
-      minlength="8"
-      placeholder="Saisir un mot de passe"
-    ></app-leasha-input>
+  <div class="login-section">
+    <h2 class="title">Connexion</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <app-leasha-input
+        *ngIf="loginForm.get('username') as usernameControl"
+        [control]="usernameControl"
+        id="username"
+        label="Pseudo :"
+        type="text"
+        name="username"
+        placeholder="Saisir un pseudo"
+      ></app-leasha-input>
 
-    <app-leasha-button
-      type="submit"
-      buttonText="Se connecter"
-    ></app-leasha-button>
+      <app-leasha-input
+        *ngIf="loginForm.get('password') as passwordControl"
+        [control]="passwordControl"
+        id="pass"
+        label="Mot de passe :"
+        type="password"
+        name="password"
+        placeholder="Saisir un mot de passe"
+      ></app-leasha-input>
+
+      <app-leasha-button
+        type="submit"
+        buttonText="Se connecter"
+      ></app-leasha-button>
+    </form>
+
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
   </div>
 </div>
+
+<dialog #addCodeDialog>
+  <div>
+    <h3>Entrer le code reçu par mail</h3>
+    <app-leasha-input
+      *ngIf="codeForm.get('code') as codeControl"
+      [control]="codeControl"
+      id="code"
+      label="Code :"
+      type="text"
+      name="code"
+      placeholder="Saisir le code..."
+    ></app-leasha-input>
+    <app-leasha-button buttonText="Valider" (click)="onSubmitCode()">
+      Valider
+    </app-leasha-button>
+  </div>
+</dialog>
+
+<dialog #registrationSuccessModal>
+  <div>
+    <h4>
+      Votre inscription a bien été validée, vous pouvez maintenant vous
+      connecter
+    </h4>
+    <app-leasha-button buttonText="OK" (click)="onCloseSubmitCodeModal()">
+      Valider
+    </app-leasha-button>
+  </div>
+</dialog>

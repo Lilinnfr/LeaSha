@@ -11,7 +11,7 @@ export class LeashaButtonComponent {
   @Input() modalId?: string;
   @Input() buttonText?: string;
   @Input() customClass?: string;
-  @Input() type?: string;
+  @Input() type: string = 'button';
 
   @Output() clickEvent = new EventEmitter<void>();
 

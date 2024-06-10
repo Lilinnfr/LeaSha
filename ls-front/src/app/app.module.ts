@@ -11,11 +11,14 @@ import { FooterComponent } from './components/footer/footer.component';
 import { MemoSetComponent } from './modules/memo-set/memo-set.component';
 import { LoginComponent } from './components/login/login.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MemoRoutingModule } from './modules/memo-routing.module';
 import { AllCardMemosComponent } from './modules/memo-set/card-memo/all-card-memos/all-card-memos.component';
 import { LeashaButtonComponent } from './components/shared/leasha-button/leasha-button.component';
 import { LeashaInputComponent } from './components/shared/leasha-input/leasha-input.component';
+import { AuthService } from './services/auth.service';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -37,8 +40,12 @@ import { LeashaInputComponent } from './components/shared/leasha-input/leasha-in
     AppRoutingModule,
     HttpClientModule,
     MemoRoutingModule,
+    ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [
+    AuthService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

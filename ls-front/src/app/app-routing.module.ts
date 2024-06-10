@@ -6,7 +6,7 @@ import { LoginComponent } from './components/login/login.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'Connexion', component: LoginComponent },
+  { path: 'utilisateur/connexion', component: LoginComponent },
   { path: 'Tous mes mémos', component: MemoSetComponent },
   {
     path: 'Mes mémos',
