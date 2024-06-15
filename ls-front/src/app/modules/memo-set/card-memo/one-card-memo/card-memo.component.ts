@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { MemoCardService } from '../../services/memo-card.service';
-import { MemoCard } from '../../models/memo-card';
 import { CardService } from '../../services/card.service';
 import { Card } from '../../models/card';
 import { ActivatedRoute } from '@angular/router';

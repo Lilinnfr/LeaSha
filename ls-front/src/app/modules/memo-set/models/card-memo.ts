@@ -1,6 +1,6 @@
 import { Card } from './card';
 
-export class MemoCard {
+export class CardMemo {
   id?: number;
   titre?: string;
   description?: string;

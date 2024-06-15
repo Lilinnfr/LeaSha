@@ -7,6 +7,8 @@ import com.ls.lsback.service.MemoCardService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,7 +29,9 @@ public class MemoCardController {
 
     @GetMapping("/Mes mémos cartes")
     public ResponseEntity<List<MemoCardEntity>> listMemoCard() {
-        List<MemoCardEntity> memos = memoCardService.listMemoCarte();
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = userDetails.getUsername();
+        List<MemoCardEntity> memos = memoCardService.listMemoCarte(username);
         if (memos.isEmpty()) {
             log.info("Mémos non dispo");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

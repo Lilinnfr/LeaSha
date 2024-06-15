@@ -8,6 +8,7 @@ import com.ls.lsback.service.MemoCardService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,8 +24,8 @@ public class MemoCardServiceImpl implements MemoCardService {
         this.memoCardRepository = memoCardRepository;
     }
 
-    public List<MemoCardEntity> listMemoCarte() {
-        return memoCardRepository.findAll();
+    public List<MemoCardEntity> listMemoCarte(String username) {
+        return memoCardRepository.findByUtilisateurUsername(username);
     }
 
     @Override
