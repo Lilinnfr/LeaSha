@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface MemoCardService {
 
-    List<MemoCardEntity> listMemoCarte(String username);
+    List<MemoCardEntity> listMemoCarte(String email);
 
     MemoCardEntity getMemoCarte(long id);
 

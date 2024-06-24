@@ -24,8 +24,9 @@ public class MemoCardServiceImpl implements MemoCardService {
         this.memoCardRepository = memoCardRepository;
     }
 
-    public List<MemoCardEntity> listMemoCarte(String username) {
-        return memoCardRepository.findByUtilisateurUsername(username);
+    public List<MemoCardEntity> listMemoCarte(String email) {
+        List<MemoCardEntity> memos = memoCardRepository.findByUtilisateurEmail(email);
+        return memos;
     }
 
     @Override

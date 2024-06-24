@@ -42,7 +42,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,"utilisateur/connexion").permitAll()
                         .requestMatchers(HttpMethod.POST,"utilisateur/modificationMdp").permitAll()
                         .requestMatchers(HttpMethod.POST,"utilisateur/nouveauMdp").permitAll()
-                        .requestMatchers(HttpMethod.POST,"utilisateur/refresh_token").permitAll()
+                        .requestMatchers(HttpMethod.POST,"utilisateur/refreshToken").permitAll()
                         // sinon il faut être authentifié
                         .anyRequest().authenticated()
                 )

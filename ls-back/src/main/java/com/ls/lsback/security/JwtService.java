@@ -72,7 +72,12 @@ public class JwtService {
     // génère un jwt pour l'utilisateur
     private Map<String, String> generateJwt(UtilisateurEntity utilisateur) {
         final long currentTime = System.currentTimeMillis();
-        final long expirationTime = currentTime + 60 * 1000;
+        // il faudra remettre à une minute (60 * 1000) ou 30 minutes (30 * 60 * 1000)
+        final long expirationTime = currentTime + (30L * 24 * 60 * 60 * 1000);
+
+        log.info("JWT généré: {}", utilisateur.getEmail());
+        log.info("Current time: {}", new Date(currentTime));
+        log.info("Expiration time: {}", new Date(expirationTime));
 
         // on définit les claims
         final Map<String, Object> claims = Map.of(
@@ -93,6 +98,7 @@ public class JwtService {
                 // algorithme de signature
                 .signWith(getKey(), SignatureAlgorithm.HS256)
                 .compact();
+        log.info("JWT généré : {}", bearer);
         return Map.of(BEARER, bearer);
     }
 
@@ -111,6 +117,8 @@ public class JwtService {
     public boolean isTokenExpired(String token) {
         // va chercher les claims depuis la date
         Date expirationDate = this.getClaim(token, Claims::getExpiration);
+        log.info("Token expirationDate: {}", expirationDate);
+        log.info("Current time: {}", new Date());
         return expirationDate.before(new Date());
     }
 
@@ -137,8 +145,9 @@ public class JwtService {
 
     // récupère un jwt à partir de sa valeur
     public JwtEntity tokenByValue(String value) {
-        return this.jwtRepository.findByValeurAndDesactiveAndExpire(value, false, false)
+        JwtEntity jwtEntity = this.jwtRepository.findByValeurAndDesactiveAndExpire(value, false, false)
                 .orElseThrow(() -> new RuntimeException("Token invalide ou inconnu"));
+        return jwtEntity;
     }
 
     // désactive tous les tokens d'un utilisateur
@@ -176,8 +185,9 @@ public class JwtService {
 
     // rafraichit le token
     public Map<String, String> refreshToken(Map<String, String> refreshTokenRequest) {
-        final JwtEntity jwt = this.jwtRepository.findByRefreshToken(refreshTokenRequest.get(REFRESH)).orElseThrow(() -> new RuntimeException(TOKEN_INVALIDE));
-        if(jwt.getRefreshToken().isExpire() || jwt.getRefreshToken().getExpiration().isBefore(Instant.now())) {
+        final JwtEntity jwt = this.jwtRepository.findByRefreshToken(refreshTokenRequest.get(REFRESH))
+                .orElseThrow(() -> new RuntimeException(TOKEN_INVALIDE));
+        if (jwt.getRefreshToken().isExpire() || jwt.getRefreshToken().getExpiration().isBefore(Instant.now())) {
             throw new RuntimeException(TOKEN_INVALIDE);
         }
         this.disableTokens(jwt.getUtilisateur());

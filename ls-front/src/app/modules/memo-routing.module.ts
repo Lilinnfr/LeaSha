@@ -4,15 +4,25 @@ import { CardMemoComponent } from './memo-set/card-memo/one-card-memo/card-memo.
 import { ListMemoComponent } from './memo-set/list-memo/list-memo.component';
 import { MemoSetComponent } from './memo-set/memo-set.component';
 import { AllCardMemosComponent } from './memo-set/card-memo/all-card-memos/all-card-memos.component';
+import { AuthGuard } from '../guards/auth.guard';
 
 const memoRoutes: Routes = [
   { path: '', component: MemoSetComponent },
-  { path: 'memoCarte/Mes mémos cartes', component: AllCardMemosComponent },
+  {
+    path: 'memoCarte/Mes mémos cartes',
+    component: AllCardMemosComponent,
+    canActivate: [AuthGuard],
+  },
   {
     path: 'memoCarte/Mes mémos cartes/:memoId',
     component: CardMemoComponent,
+    canActivate: [AuthGuard],
   },
-  { path: 'Mes mémos listes', component: ListMemoComponent },
+  {
+    path: 'Mes mémos listes',
+    component: ListMemoComponent,
+    canActivate: [AuthGuard],
+  },
 ];
 
 @NgModule({

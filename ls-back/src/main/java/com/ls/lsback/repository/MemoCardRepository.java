@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface MemoCardRepository extends JpaRepository<MemoCardEntity, Long> {
-    List<MemoCardEntity> findByUtilisateurUsername(String username);
+    List<MemoCardEntity> findByUtilisateurEmail(String email);
 }

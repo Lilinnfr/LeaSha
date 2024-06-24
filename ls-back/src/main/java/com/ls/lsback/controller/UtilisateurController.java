@@ -88,7 +88,7 @@ public class UtilisateurController {
         this.utilisateurService.newPassword(activation);
     }
 
-    @PostMapping(path = "refresh-token")
+    @PostMapping( "/refreshToken")
     public @ResponseBody Map<String, String> refreshToken(@RequestBody Map<String, String> refreshTokenRequest) {
         return this.jwtService.refreshToken(refreshTokenRequest);
     }

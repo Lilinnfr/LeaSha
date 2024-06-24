@@ -6,7 +6,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrl: './leasha-button.component.scss',
 })
 export class LeashaButtonComponent {
-  @Input() routerLink?: string;
+  @Input() routerLink?: string | any[] | null;
   @Input() disabled?: boolean;
   @Input() modalId?: string;
   @Input() buttonText?: string;

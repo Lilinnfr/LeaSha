@@ -60,11 +60,17 @@
       </div>
     </form>
     <div class="ml-auto">
+      @if (!currentUser) {
       <app-leasha-button
-        routerLink="/utilisateur/connexion"
+        [routerLink]="['/utilisateur/inscription']"
         buttonText="Se connecter / S'inscrire"
-      >
-      </app-leasha-button>
+      ></app-leasha-button>
+      } @else {
+      <app-leasha-button
+        buttonText="Se déconnecter"
+        (click)="logout()"
+      ></app-leasha-button>
+      }
     </div>
     <div class="dropdown">
       <a
@@ -80,9 +86,9 @@
           height="32"
           class="rounded-circle me-2"
         />
-        <strong>pseudo</strong>
+        <strong>{{ currentUser?.username }}</strong>
       </a>
-      <ul class="dropdown-menu text-small shadow" style="">
+      <ul class="dropdown-menu text-small shadow">
         <li><a class="dropdown-item" href="#">New project...</a></li>
         <li><a class="dropdown-item" href="#">Settings</a></li>
         <li><a class="dropdown-item" href="#">Profile</a></li>

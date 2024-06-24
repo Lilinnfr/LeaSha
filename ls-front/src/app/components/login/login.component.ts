@@ -43,9 +43,11 @@ export class LoginComponent {
     if (this.registerForm.valid) {
       this.authService.register(this.registerForm.value).subscribe({
         next: (response) => {
+          console.log('Réponse inscription: ', response);
           this.addCodeDialog.nativeElement.showModal();
         },
         error: (error) => {
+          console.error(error);
           this.errorMessage = "Une erreur est survenue lors de l'inscription";
         },
       });
@@ -60,7 +62,7 @@ export class LoginComponent {
           setTimeout(() => {
             this.registrationSuccessModal.nativeElement.showModal();
           }, 0);
-          console.log('submition ok');
+          console.log('inscription ok');
         },
       });
     }
@@ -68,6 +70,7 @@ export class LoginComponent {
 
   onCloseSubmitCodeModal() {
     this.registrationSuccessModal.nativeElement.close();
+    //this.router.navigate(['/utilisateur/connexion']);;
   }
 
   onLogin(): void {

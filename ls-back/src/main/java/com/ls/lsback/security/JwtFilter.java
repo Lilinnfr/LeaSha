@@ -45,6 +45,9 @@ public class JwtFilter extends OncePerRequestFilter {
                 if (!isTokenExpired) {
                     username = jwtService.readUsername(token);
                 }
+                System.out.println("Token: " + token);
+                System.out.println("Token Expiré ? : " + isTokenExpired);
+                System.out.println("Pseudo: " + username);
             }
 
             // s'il n'y a pas déjà de context d'authentification
@@ -57,6 +60,7 @@ public class JwtFilter extends OncePerRequestFilter {
             }
             filterChain.doFilter(request, response);
         } catch (Exception exception) {
+            System.out.println("Token expiré: " + exception.getMessage());
             handlerExceptionResolver.resolveException(request, response, null, exception);
         }
     }

@@ -30,8 +30,10 @@ public class MemoCardController {
     @GetMapping("/Mes mémos cartes")
     public ResponseEntity<List<MemoCardEntity>> listMemoCard() {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = userDetails.getUsername();
-        List<MemoCardEntity> memos = memoCardService.listMemoCarte(username);
+        String email = userDetails.getUsername();
+        log.info("Récupération des mémos pour l'utilisateur : {}", email);
+        List<MemoCardEntity> memos = memoCardService.listMemoCarte(email);
+        log.info("Mémos récupérés : {}", memos);
         if (memos.isEmpty()) {
             log.info("Mémos non dispo");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
