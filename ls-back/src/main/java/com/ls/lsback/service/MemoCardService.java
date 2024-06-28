@@ -10,7 +10,7 @@ public interface MemoCardService {
 
     MemoCardEntity getMemoCarte(long id);
 
-    public void addMemoCarte(MemoCardEntity memoCardEntity);
+    public MemoCardEntity addMemoCarte(MemoCardEntity memoCardEntity);
 
     public void deleteMemoCarte(long id);
 

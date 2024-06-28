@@ -3,7 +3,7 @@
 dialog {
   position: fixed;
   top: 25%;
-  min-width: 300px;
+  min-width: 500px;
   max-width: 90%;
   background-color: $leasha-light-beige;
   border-color: transparent;
@@ -30,4 +30,18 @@ textarea {
 .btn-style:hover {
   background-color: $leasha-dark-beige;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+.container {
+  padding-left: 280px;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 30px;
+  cursor: pointer;
 }

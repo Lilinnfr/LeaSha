@@ -1,3 +1,4 @@
+import { Category } from '../enums/category.enum';
 import { Card } from './card';
 
 export class CardMemo {
@@ -6,6 +7,6 @@ export class CardMemo {
   description?: string;
   dateCreation?: Date;
   dateModif?: Date;
-  categorieId?: number;
+  categorie?: Category;
   carte?: Card[];
 }

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Card } from '../models/card';
 import { CardMemo } from '../models/card-memo';
 import { AuthService } from '../../../services/auth.service';
 
@@ -27,6 +26,21 @@ export class MemoCardService {
     };
     return this.httpClient.get<CardMemo[]>(
       `${this.API_URL}/memoCarte/Mes mémos cartes`,
+      httpOptions
+    );
+  }
+
+  public addMemo(memo: CardMemo): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': 'http://localhost:4200',
+        Authorization: `Bearer ${this.authService.getToken()}`,
+      }),
+    };
+    return this.httpClient.post<CardMemo[]>(
+      `${this.API_URL}/memoCarte/creation`,
+      memo,
       httpOptions
     );
   }

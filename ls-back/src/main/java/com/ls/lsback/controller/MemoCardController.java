@@ -59,8 +59,9 @@ public class MemoCardController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/creation")
-    public void createMemoCard(@RequestBody MemoCardEntity memoCardEntity) {
-      this.memoCardService.addMemoCarte(memoCardEntity);
+    public ResponseEntity<MemoCardEntity> createMemoCard(@RequestBody MemoCardEntity memoCardEntity) {
+        MemoCardEntity createdMemoCard = this.memoCardService.addMemoCarte(memoCardEntity);
+        return new ResponseEntity<>(createdMemoCard, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/suppression/{id}")
