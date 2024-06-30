@@ -1,6 +1,49 @@
-<div
-  class="d-flex justify-content-center align-items-center card"
-  style="height: 100vh"
->
-  <div *ngFor="let card of cards">{{ card.recto }}</div>
+<app-sidebar></app-sidebar>
+<div class="container">
+  <app-leasha-button
+    buttonText="Ajouter une carte"
+    (click)="addCardDialog.show()"
+  ></app-leasha-button>
+  <div class="row">
+    <div class="col-md-4" *ngFor="let card of cards">
+      <div class="card mb-4 box-shadow">
+        <div class="card-body">
+          <p class="card-text">{{ card.recto }}</p>
+          <p class="card-text">{{ card.verso }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+<dialog #addCardDialog>
+  <div>
+    <h3>Ajouter une carte</h3>
+    <button class="close-button" (click)="closeDialog()">×</button>
+    <form [formGroup]="addCardForm" (ngSubmit)="addCard()">
+      <app-leasha-input
+        [control]="addCardForm.get('recto')"
+        id="recto"
+        label="Recto * :"
+        type="text"
+        class="input"
+        name="memo"
+        placeholder="Entrer le recto de la carte..."
+      ></app-leasha-input>
+      <app-leasha-input
+        [control]="addCardForm.get('verso')"
+        id="verso"
+        label="Verso * :"
+        type="text"
+        class="input"
+        name="verso"
+        placeholder="Entrer le verso de la carte..."
+      ></app-leasha-input>
+      <app-leasha-button type="submit" buttonText="Ajouter"></app-leasha-button>
+      <app-leasha-button
+        type="button"
+        buttonText="Annuler"
+        (click)="closeDialog()"
+      ></app-leasha-button>
+    </form>
+  </div>
+</dialog>

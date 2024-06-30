@@ -61,7 +61,7 @@ export class AllCardMemosComponent implements OnInit {
       console.log('Données du formulaire avant envoi :', memo);
       this.memoCardService.addMemo(memo).subscribe({
         next: (response) => {
-          console.log('Réponse du backend après ajout :', response);
+          console.log('Réponse après ajout :', response);
           this.getMemos();
           this.addMemoDialog.nativeElement.close();
           this.addMemoForm.reset();
@@ -70,7 +70,7 @@ export class AllCardMemosComponent implements OnInit {
           console.error("Erreur lors de l'ajout du mémo", error);
         },
         complete: () => {
-          console.log('Mémo ajouté avec succès');
+          console.log('Mémo ajouté !');
         },
       });
     }

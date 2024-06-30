@@ -43,8 +43,17 @@ public class CardServiceImpl  implements CardService {
     }
 
     @Override
-    public CardEntity addCarte(CardEntity cardEntity) {
-        return cardRepository.save(cardEntity);
+    public CardEntity addCarte(CardEntity cardEntity, long memoId) {
+        // on récupère l'id du mémo
+        Optional<MemoCardEntity> memo = memoCardRepository.findById(memoId);
+        if (memo.isPresent()) {
+            // on associe le mémo à la carte
+            cardEntity.setMemoId(memo.get());
+            // on sauvegarde la carte avec le mémo associé
+            return cardRepository.save(cardEntity);
+        } else {
+            throw new EntityNotFoundException("Pas de mémo trouvé avec l'id " + memoId);
+        }
     }
 
     @Override

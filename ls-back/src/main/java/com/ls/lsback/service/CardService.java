@@ -10,7 +10,7 @@ public interface CardService {
 
     CardEntity getCarte(long id);
 
-    CardEntity addCarte(CardEntity cardEntity);
+    CardEntity addCarte(CardEntity cardEntity, long memoId);
 
     boolean deleteCarte(long id);
 

@@ -49,8 +49,8 @@ public class CardController {
     }
 
     @PostMapping("/creation")
-    public ResponseEntity<CardEntity> createCard(@RequestBody CardEntity cardEntity) {
-        CardEntity createdCard = cardService.addCarte(cardEntity);
+    public ResponseEntity<CardEntity> createCard(@RequestBody CardEntity cardEntity, @RequestParam Long memoId) {
+        CardEntity createdCard = cardService.addCarte(cardEntity, memoId);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCard);
     }
 
