@@ -46,4 +46,33 @@ export class CardService {
       httpOptions
     );
   }
+
+  public updateCard(id: number, card: Card): Observable<Card> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': 'http://localhost:4200',
+        Authorization: `Bearer ${this.authService.getToken()}`,
+      }),
+    };
+    return this.httpClient.put<Card>(
+      `${this.API_URL}/memoCarte/carte/modification/${id}`,
+      card,
+      httpOptions
+    );
+  }
+
+  public deleteCard(id: number): Observable<void> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': 'http://localhost:4200',
+        Authorization: `Bearer ${this.authService.getToken()}`,
+      }),
+    };
+    return this.httpClient.delete<void>(
+      `${this.API_URL}/memoCarte/carte/suppression/${id}`,
+      httpOptions
+    );
+  }
 }

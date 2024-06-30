@@ -10,6 +10,16 @@
         <div class="card-body">
           <p class="card-text">{{ card.recto }}</p>
           <p class="card-text">{{ card.verso }}</p>
+          <div class="d-flex justify-content-between">
+            <app-leasha-button
+              buttonText="Modifier"
+              (click)="editCard(card)"
+            ></app-leasha-button>
+            <app-leasha-button
+              buttonText="Supprimer"
+              (click)="deleteCard(card.id!)"
+            ></app-leasha-button>
+          </div>
         </div>
       </div>
     </div>
@@ -17,9 +27,13 @@
 </div>
 <dialog #addCardDialog>
   <div>
-    <h3>Ajouter une carte</h3>
+    <h3 *ngIf="selectedCardId === null">Ajouter une carte</h3>
+    <h3 *ngIf="selectedCardId !== null">Modifier une carte</h3>
     <button class="close-button" (click)="closeDialog()">×</button>
-    <form [formGroup]="addCardForm" (ngSubmit)="addCard()">
+    <form
+      [formGroup]="addCardForm"
+      (ngSubmit)="selectedCardId === null ? addCard() : updateCard()"
+    >
       <app-leasha-input
         [control]="addCardForm.get('recto')"
         id="recto"

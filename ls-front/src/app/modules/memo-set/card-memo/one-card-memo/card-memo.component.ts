@@ -17,6 +17,7 @@ export class CardMemoComponent implements OnInit {
   cards: Card[] = [];
   addCardForm!: FormGroup;
   memoId: number = 0;
+  selectedCardId: number | null = null;
 
   constructor(
     private cardService: CardService,
@@ -80,6 +81,57 @@ export class CardMemoComponent implements OnInit {
         },
       });
     }
+  }
+
+  updateCard() {
+    if (this.addCardForm.valid && this.selectedCardId !== null) {
+      const card: Card = {
+        recto: this.addCardForm.get('recto')?.value || '',
+        verso: this.addCardForm.get('verso')?.value || '',
+      };
+      this.cardService.updateCard(this.selectedCardId!, card).subscribe({
+        next: (response) => {
+          console.log(
+            'Réponse du backend après modification de carte :',
+            response
+          );
+          this.getCards();
+          this.addCardDialog.nativeElement.close();
+          this.addCardForm.reset();
+          this.selectedCardId = null;
+        },
+        error: (error) => {
+          console.error('Erreur lors de la modification de la carte', error);
+        },
+        complete: () => {
+          console.log('Carte modifiée avec succès');
+        },
+      });
+    }
+  }
+
+  editCard(card: Card) {
+    this.selectedCardId = card.id!;
+    this.addCardForm.patchValue({
+      recto: card.recto,
+      verso: card.verso,
+    });
+    this.addCardDialog.nativeElement.show();
+  }
+
+  deleteCard(cardId: number) {
+    this.cardService.deleteCard(cardId).subscribe({
+      next: () => {
+        console.log('Carte supprimée');
+        this.getCards();
+      },
+      error: (error) => {
+        console.error('Erreur lors de la suppression de la carte', error);
+      },
+      complete: () => {
+        console.log('Suppression de la carte ok');
+      },
+    });
   }
 
   closeDialog() {

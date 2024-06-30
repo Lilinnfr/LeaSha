@@ -57,6 +57,22 @@ public class CardServiceImpl  implements CardService {
     }
 
     @Override
+    public CardEntity updateCarte(long id, CardEntity cardEntity) {
+        // On vérifie si la carte existe
+        Optional<CardEntity> existingCard = cardRepository.findById(id);
+        if (existingCard.isPresent()) {
+            CardEntity cardToUpdate = existingCard.get();
+            // On met à jour les champs de la carte
+            cardToUpdate.setRecto(cardEntity.getRecto());
+            cardToUpdate.setVerso(cardEntity.getVerso());
+            // On sauvegarde la carte mise à jour
+            return cardRepository.save(cardToUpdate);
+        } else {
+            throw new EntityNotFoundException("Pas de carte avec ID " + id);
+        }
+    }
+
+    @Override
     public boolean deleteCarte(long id) {
         Optional<CardEntity> card = cardRepository.findById(id);
         if (card.isPresent()) {

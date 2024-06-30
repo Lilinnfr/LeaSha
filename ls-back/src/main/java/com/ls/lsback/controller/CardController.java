@@ -42,7 +42,7 @@ public class CardController {
     public ResponseEntity<CardEntity> getCardById(@PathVariable("memoId") long memoId, @PathVariable("carteId") long id) {
         CardEntity card = cardService.getCarte(id);
         if (card == null) {
-            log.info("Carte avec ID {} non trouvé", id);
+            log.info("Pas de carte avec ID {}", id);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(card, HttpStatus.OK);
@@ -52,6 +52,17 @@ public class CardController {
     public ResponseEntity<CardEntity> createCard(@RequestBody CardEntity cardEntity, @RequestParam Long memoId) {
         CardEntity createdCard = cardService.addCarte(cardEntity, memoId);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCard);
+    }
+
+    @PutMapping("/modification/{id}")
+    public ResponseEntity<CardEntity> updateCard(@PathVariable("id") long id, @RequestBody CardEntity cardEntity) {
+        try {
+            CardEntity updatedCard = cardService.updateCarte(id, cardEntity);
+            return new ResponseEntity<>(updatedCard, HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            log.info("Pas de carte avec ID {}", id);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/suppression/{id}")

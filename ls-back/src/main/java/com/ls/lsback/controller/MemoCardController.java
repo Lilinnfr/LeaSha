@@ -51,12 +51,6 @@ public class MemoCardController {
         return new ResponseEntity<>(memo, HttpStatus.OK);
     }
 
-/*    @PostMapping("/creation")
-    public ResponseEntity<MemoCardEntity> createMemoCard(@RequestBody MemoCardEntity memoCardEntity) {
-        MemoCardEntity createdMemo = memoCardService.addMemoCarte(memoCardEntity);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdMemo);
-    }*/
-
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/creation")
     public ResponseEntity<MemoCardEntity> createMemoCard(@RequestBody MemoCardEntity memoCardEntity) {

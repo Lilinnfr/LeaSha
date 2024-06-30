@@ -12,6 +12,8 @@ public interface CardService {
 
     CardEntity addCarte(CardEntity cardEntity, long memoId);
 
+    CardEntity updateCarte(long id, CardEntity cardEntity);
+
     boolean deleteCarte(long id);
 
 }
