@@ -13,11 +13,15 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class CardMemoComponent implements OnInit {
   @ViewChild('addCardDialog') addCardDialog!: ElementRef<HTMLDialogElement>;
+  @ViewChild('confirmDeleteDialog')
+  confirmDeleteDialog!: ElementRef<HTMLDialogElement>;
 
   cards: Card[] = [];
   addCardForm!: FormGroup;
   memoId: number = 0;
   selectedCardId: number | null = null;
+  cardIdToDelete: number | null = null;
+  submitButtonText: string = 'Ajouter';
 
   constructor(
     private cardService: CardService,
@@ -111,6 +115,7 @@ export class CardMemoComponent implements OnInit {
   }
 
   editCard(card: Card) {
+    this.submitButtonText = 'Modifier';
     this.selectedCardId = card.id!;
     this.addCardForm.patchValue({
       recto: card.recto,
@@ -119,22 +124,36 @@ export class CardMemoComponent implements OnInit {
     this.addCardDialog.nativeElement.show();
   }
 
-  deleteCard(cardId: number) {
-    this.cardService.deleteCard(cardId).subscribe({
-      next: () => {
-        console.log('Carte supprimée');
-        this.getCards();
-      },
-      error: (error) => {
-        console.error('Erreur lors de la suppression de la carte', error);
-      },
-      complete: () => {
-        console.log('Suppression de la carte ok');
-      },
-    });
+  openDeleteConfirmDialog(cardId: number) {
+    this.cardIdToDelete = cardId;
+    this.confirmDeleteDialog.nativeElement.show();
+  }
+
+  closeConfirmDeleteDialog() {
+    this.cardIdToDelete = null;
+    this.confirmDeleteDialog.nativeElement.close();
+  }
+
+  confirmDeleteCard() {
+    if (this.cardIdToDelete !== null) {
+      this.cardService.deleteCard(this.cardIdToDelete).subscribe({
+        next: () => {
+          console.log('Carte supprimée');
+          this.getCards();
+          this.closeConfirmDeleteDialog();
+        },
+        error: (error) => {
+          console.error('Erreur lors de la suppression de la carte', error);
+        },
+        complete: () => {
+          console.log('Suppression de la carte ok');
+        },
+      });
+    }
   }
 
   closeDialog() {
+    this.submitButtonText = 'Ajouter';
     this.addCardDialog.nativeElement.close();
     this.addCardForm.reset();
   }

@@ -2,8 +2,10 @@ package com.ls.lsback.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ls.lsback.entity.CardEntity;
 import com.ls.lsback.entity.MemoCardEntity;
 import com.ls.lsback.service.MemoCardService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,6 +58,17 @@ public class MemoCardController {
     public ResponseEntity<MemoCardEntity> createMemoCard(@RequestBody MemoCardEntity memoCardEntity) {
         MemoCardEntity createdMemoCard = this.memoCardService.addMemoCarte(memoCardEntity);
         return new ResponseEntity<>(createdMemoCard, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/modification/{id}")
+    public ResponseEntity<MemoCardEntity> updateMemoCard(@PathVariable("id") long id, @RequestBody MemoCardEntity memoCardEntity) {
+        try {
+            MemoCardEntity updatedMemoCard = memoCardService.updateMemoCarte(id, memoCardEntity);
+            return new ResponseEntity<>(updatedMemoCard, HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            log.info("Pas de mémo avec ID {}", id);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/suppression/{id}")

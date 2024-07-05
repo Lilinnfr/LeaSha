@@ -40,6 +40,20 @@ public class MemoCardServiceImpl implements MemoCardService {
     }
 
     @Override
+    public MemoCardEntity updateMemoCarte(long id, MemoCardEntity memoCardEntity) {
+        Optional<MemoCardEntity> existingMemo = memoCardRepository.findById(id);
+        if (existingMemo.isPresent()) {
+            MemoCardEntity memoToUpdate = existingMemo.get();
+            memoToUpdate.setTitre(memoCardEntity.getTitre());
+            memoToUpdate.setCategorie(memoCardEntity.getCategorie());
+            memoToUpdate.setDescription(memoCardEntity.getDescription());
+            return this.memoCardRepository.save(memoToUpdate);
+        } else {
+            throw new EntityNotFoundException("Pas de mémo avec id " + id);
+        }
+    }
+
+    @Override
     public void deleteMemoCarte(long id) {
         Optional<MemoCardEntity> memo = memoCardRepository.findById(id);
         if (memo.isPresent()) {

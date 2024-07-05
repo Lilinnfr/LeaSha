@@ -14,10 +14,15 @@ import { CategoryService } from '../../services/category.service';
 })
 export class AllCardMemosComponent implements OnInit {
   @ViewChild('addMemoDialog') addMemoDialog!: ElementRef<HTMLDialogElement>;
+  @ViewChild('confirmDeleteDialog')
+  confirmDeleteDialog!: ElementRef<HTMLDialogElement>;
 
   cardMemos: CardMemo[] = [];
   addMemoForm!: FormGroup;
   categories: { id: number; libelle: Category }[] = [];
+  selectedMemoId: number | null = null;
+  memoIdToDelete: number | null = null;
+  submitButtonText: string = 'Ajouter';
 
   constructor(
     private memoCardService: MemoCardService,
@@ -76,7 +81,75 @@ export class AllCardMemosComponent implements OnInit {
     }
   }
 
+  updateMemo() {
+    if (this.addMemoForm.valid && this.selectedMemoId !== null) {
+      const memo: CardMemo = {
+        titre: this.addMemoForm.get('titre')?.value || '',
+        categorie: this.addMemoForm.get('categorie')?.value || '',
+        description: this.addMemoForm.get('description')?.value || '',
+      };
+      this.memoCardService.updateMemo(this.selectedMemoId!, memo).subscribe({
+        next: (response) => {
+          console.log(
+            'Réponse du backend après modification de mémo :',
+            response
+          );
+          this.getMemos();
+          this.addMemoDialog.nativeElement.close();
+          this.addMemoForm.reset();
+          this.selectedMemoId = null;
+        },
+        error: (error) => {
+          console.error('Erreur lors de la modification du mémo', error);
+        },
+        complete: () => {
+          console.log('Mémo modifié avec succès');
+        },
+      });
+    }
+  }
+
+  editMemo(memo: CardMemo) {
+    this.submitButtonText = 'Modifier';
+    this.selectedMemoId = memo.id!;
+    this.addMemoForm.patchValue({
+      titre: memo.titre,
+      categorie: memo.categorie,
+      description: memo.description,
+    });
+    this.addMemoDialog.nativeElement.show();
+  }
+
+  openDeleteConfirmDialog(memoId: number) {
+    this.memoIdToDelete = memoId;
+    this.confirmDeleteDialog.nativeElement.show();
+  }
+
+  closeConfirmDeleteDialog() {
+    this.memoIdToDelete = null;
+    this.confirmDeleteDialog.nativeElement.close();
+  }
+
+  confirmDeleteMemo() {
+    if (this.memoIdToDelete !== null) {
+      this.memoCardService.deleteMemo(this.memoIdToDelete).subscribe({
+        next: () => {
+          console.log('Mémo supprimé');
+          this.getMemos();
+          this.closeConfirmDeleteDialog();
+        },
+        error: (error) => {
+          console.error('Erreur lors de la suppression du mémo', error);
+        },
+        complete: () => {
+          console.log('Suppression du mémo ok');
+        },
+      });
+    }
+  }
+
   closeDialog() {
+    this.submitButtonText = 'Ajouter';
     this.addMemoDialog.nativeElement.close();
     this.addMemoForm.reset();
   }

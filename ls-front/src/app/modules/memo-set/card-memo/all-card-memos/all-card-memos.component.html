@@ -1,4 +1,5 @@
 <app-sidebar></app-sidebar>
+
 <div class="container">
   <div>
     <app-leasha-button
@@ -13,19 +14,36 @@
           <h5 class="card-title">{{ cardMemo.titre }}</h5>
           <a
             [routerLink]="['/memoCarte/Mes mémos cartes/', cardMemo.id]"
-            class="btn btn-style"
+            class="btn btn-style mt-2"
             >Voir le mémo</a
           >
+          <div class="button-group mt-2">
+            <app-leasha-button
+              buttonText="Modifier"
+              class="btn-sm"
+              (click)="editMemo(cardMemo)"
+            ></app-leasha-button>
+            <app-leasha-button
+              buttonText="Supprimer"
+              class="btn-sm"
+              (click)="openDeleteConfirmDialog(cardMemo.id!)"
+            ></app-leasha-button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
 <dialog #addMemoDialog>
   <div>
-    <h3>Ajouter un mémo</h3>
+    <h3 *ngIf="selectedMemoId === null">Ajouter un mémo</h3>
+    <h3 *ngIf="selectedMemoId !== null">Modifier un mémo</h3>
     <button class="close-button" (click)="closeDialog()">×</button>
-    <form [formGroup]="addMemoForm" (ngSubmit)="addMemo()">
+    <form
+      [formGroup]="addMemoForm"
+      (ngSubmit)="selectedMemoId === null ? addMemo() : updateMemo()"
+    >
       <app-leasha-input
         [control]="addMemoForm.get('titre')"
         id="memo"
@@ -55,12 +73,32 @@
         placeholder="Saisir une description..."
         formControlName="description"
       ></textarea>
-      <app-leasha-button type="submit" buttonText="Ajouter"></app-leasha-button>
+      <app-leasha-button
+        type="submit"
+        [buttonText]="submitButtonText"
+      ></app-leasha-button>
       <app-leasha-button
         type="button"
         buttonText="Annuler"
         (click)="closeDialog()"
       ></app-leasha-button>
     </form>
+  </div>
+</dialog>
+
+<dialog #confirmDeleteDialog>
+  <div>
+    <h3>Confirmer la suppression</h3>
+    <p>Êtes-vous sûr de vouloir supprimer ce mémo ?</p>
+    <div class="d-flex justify-content-end">
+      <app-leasha-button
+        buttonText="Annuler"
+        (click)="closeConfirmDeleteDialog()"
+      ></app-leasha-button>
+      <app-leasha-button
+        buttonText="Confirmer"
+        (click)="confirmDeleteMemo()"
+      ></app-leasha-button>
+    </div>
   </div>
 </dialog>

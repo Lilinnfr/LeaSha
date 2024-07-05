@@ -1,4 +1,5 @@
 <app-sidebar></app-sidebar>
+
 <div class="container">
   <app-leasha-button
     buttonText="Ajouter une carte"
@@ -17,7 +18,7 @@
             ></app-leasha-button>
             <app-leasha-button
               buttonText="Supprimer"
-              (click)="deleteCard(card.id!)"
+              (click)="openDeleteConfirmDialog(card.id!)"
             ></app-leasha-button>
           </div>
         </div>
@@ -25,6 +26,7 @@
     </div>
   </div>
 </div>
+
 <dialog #addCardDialog>
   <div>
     <h3 *ngIf="selectedCardId === null">Ajouter une carte</h3>
@@ -52,12 +54,32 @@
         name="verso"
         placeholder="Entrer le verso de la carte..."
       ></app-leasha-input>
-      <app-leasha-button type="submit" buttonText="Ajouter"></app-leasha-button>
+      <app-leasha-button
+        type="submit"
+        [buttonText]="submitButtonText"
+      ></app-leasha-button>
       <app-leasha-button
         type="button"
         buttonText="Annuler"
         (click)="closeDialog()"
       ></app-leasha-button>
     </form>
+  </div>
+</dialog>
+
+<dialog #confirmDeleteDialog>
+  <div>
+    <h3>Confirmer la suppression</h3>
+    <p>Êtes-vous sûr de vouloir supprimer cette carte ?</p>
+    <div class="d-flex justify-content-end">
+      <app-leasha-button
+        buttonText="Annuler"
+        (click)="closeConfirmDeleteDialog()"
+      ></app-leasha-button>
+      <app-leasha-button
+        buttonText="Confirmer"
+        (click)="confirmDeleteCard()"
+      ></app-leasha-button>
+    </div>
   </div>
 </dialog>

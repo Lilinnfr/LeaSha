@@ -45,3 +45,14 @@ textarea {
   font-size: 30px;
   cursor: pointer;
 }
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+}
