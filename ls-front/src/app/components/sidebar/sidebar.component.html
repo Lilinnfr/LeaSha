@@ -4,23 +4,28 @@
   <ul class="nav nav-pills flex-column mb-auto">
     <li class="nav-item">
       <a
-        [routerLink]="['/Tous mes mémos']"
-        class="nav-link active"
-        aria-current="page"
+        [routerLink]="['/memoCarte/Mes mémos cartes']"
+        routerLinkActive="active"
+        class="nav-link link-body-emphasis"
       >
-        Mes cartes
-      </a>
-    </li>
-    <li>
-      <a [routerLink]="['/memoCarte/Mes mémos cartes']" class="nav-link">
         Mes cartes à retourner
       </a>
     </li>
-    <li>
-      <a [routerLink]="['/Mes mémos listes']" class="nav-link"> Mes listes </a>
+    <li class="nav-item">
+      <a
+        [routerLink]="['/Mes mémos listes']"
+        routerLinkActive="active"
+        class="nav-link link-body-emphasis"
+      >
+        Mes listes
+      </a>
     </li>
-    <li>
-      <a [routerLink]="['/Mes quiz']" class="nav-link link-body-emphasis">
+    <li class="nav-item">
+      <a
+        [routerLink]="['/Mes quiz']"
+        routerLinkActive="active"
+        class="nav-link link-body-emphasis"
+      >
         Mes quiz
       </a>
     </li>

@@ -5,6 +5,10 @@
     buttonText="Ajouter une carte"
     (click)="addCardDialog.show()"
   ></app-leasha-button>
+  <app-leasha-button
+    buttonText="Révision des cartes"
+    (click)="openReviewDialog()"
+  ></app-leasha-button>
   <div class="row">
     <div class="col-md-4" *ngFor="let card of cards">
       <div class="card mb-4 box-shadow">
@@ -81,5 +85,36 @@
         (click)="confirmDeleteCard()"
       ></app-leasha-button>
     </div>
+  </div>
+</dialog>
+
+<dialog #reviewDialog class="review-dialog">
+  <div>
+    <h3>Révision des cartes</h3>
+    <button class="close-button" (click)="closeReviewDialog()">×</button>
+    <div class="review-card">
+      <p *ngIf="!showVerso">{{ randomCard?.recto }}</p>
+      <p *ngIf="showVerso">{{ randomCard?.verso }}</p>
+    </div>
+    <div class="review-buttons">
+      <app-leasha-button
+        buttonText="Retourner la carte"
+        (click)="flipCard()"
+      ></app-leasha-button>
+      <app-leasha-button
+        buttonText="Carte suivante"
+        (click)="nextCard()"
+      ></app-leasha-button>
+    </div>
+  </div>
+</dialog>
+
+<dialog #endReviewDialog class="end-review-dialog">
+  <div>
+    <h3>Vous avez révisé toutes les cartes de ce mémo</h3>
+    <app-leasha-button
+      buttonText="Ok"
+      (click)="resetReview()"
+    ></app-leasha-button>
   </div>
 </dialog>

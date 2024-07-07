@@ -15,13 +15,19 @@ export class CardMemoComponent implements OnInit {
   @ViewChild('addCardDialog') addCardDialog!: ElementRef<HTMLDialogElement>;
   @ViewChild('confirmDeleteDialog')
   confirmDeleteDialog!: ElementRef<HTMLDialogElement>;
+  @ViewChild('reviewDialog') reviewDialog!: ElementRef<HTMLDialogElement>;
+  @ViewChild('endReviewDialog') endReviewDialog!: ElementRef<HTMLDialogElement>;
 
   cards: Card[] = [];
+  reviewedCards: Set<number> = new Set();
   addCardForm!: FormGroup;
   memoId: number = 0;
   selectedCardId: number | null = null;
   cardIdToDelete: number | null = null;
   submitButtonText: string = 'Ajouter';
+
+  randomCard: Card | null = null;
+  showVerso: boolean = false;
 
   constructor(
     private cardService: CardService,
@@ -156,5 +162,45 @@ export class CardMemoComponent implements OnInit {
     this.submitButtonText = 'Ajouter';
     this.addCardDialog.nativeElement.close();
     this.addCardForm.reset();
+  }
+
+  openReviewDialog() {
+    this.reviewedCards.clear();
+    this.nextCard();
+    this.reviewDialog.nativeElement.show();
+  }
+
+  closeReviewDialog() {
+    this.reviewDialog.nativeElement.close();
+    this.randomCard = null;
+    this.showVerso = false;
+  }
+
+  nextCard() {
+    if (this.reviewedCards.size === this.cards.length) {
+      this.endReviewDialog.nativeElement.showModal();
+      return;
+    }
+
+    let randomCardFound = false;
+    while (!randomCardFound) {
+      const randomIndex = Math.floor(Math.random() * this.cards.length);
+      if (!this.reviewedCards.has(randomIndex)) {
+        this.reviewedCards.add(randomIndex);
+        this.randomCard = this.cards[randomIndex];
+        this.showVerso = false;
+        randomCardFound = true;
+      }
+    }
+  }
+
+  flipCard() {
+    this.showVerso = !this.showVerso;
+  }
+
+  resetReview() {
+    this.reviewedCards.clear();
+    this.closeReviewDialog();
+    this.endReviewDialog.nativeElement.close();
   }
 }

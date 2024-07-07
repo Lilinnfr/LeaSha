@@ -8,7 +8,7 @@ dialog {
   position: fixed;
   padding: 20px;
   top: 25%;
-  min-width: 600px;
+  min-width: 300px;
   max-width: 90%;
   background-color: $leasha-light-beige;
   border-color: transparent;
@@ -39,4 +39,43 @@ dialog {
 
 .card-text {
   font-size: 1.5rem;
+}
+
+.review-dialog {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: $leasha-light-beige;
+  border-radius: 5px;
+  box-shadow: 0 0 20px 8px #d0d0d0;
+}
+
+dialog[open] {
+  display: flex;
+}
+
+.review-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  min-height: 200px;
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 2px solid #333;
+  border-radius: 10px;
+  background-color: #fff;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.review-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.end-review-dialog {
+  height: 150px;
 }
