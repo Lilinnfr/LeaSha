@@ -3,17 +3,17 @@
   <button
     class="navbar-toggler"
     type="button"
-    data-toggle="collapse"
-    data-target="#navbarSupportedContent"
-    aria-controls="navbarSupportedContent"
+    data-bs-toggle="collapse"
+    data-bs-target="#navbarNav"
+    aria-controls="navbarNav"
     aria-expanded="false"
     aria-label="Toggle navigation"
   >
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
       <li class="nav-item active m-2">
         <a [routerLink]="['']" class="nav-link"
           >Accueil<span class="sr-only"></span
@@ -21,33 +21,35 @@
       </li>
       <li class="nav-item dropdown m-2">
         <a
-          class="nav-link dropdown-toggle disabled"
+          class="nav-link dropdown-toggle"
           href="#"
           id="navbarDropdown"
           role="button"
-          data-toggle="dropdown"
-          aria-haspopup="true"
+          data-bs-toggle="dropdown"
           aria-expanded="false"
         >
-          Tous les mémos
+          Mes mémos
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-      </li>
-      <li class="nav-item m-2">
-        <a
-          [routerLink]="['/Tous mes mémos']"
-          class="nav-link"
-          tabindex="-1"
-          aria-disabled="true"
-          >Mes mémos</a
-        >
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <li>
+            <a
+              [routerLink]="['/memoCarte/Mes mémos cartes']"
+              class="dropdown-item"
+              >Mes cartes à retourner</a
+            >
+          </li>
+          <li>
+            <a [routerLink]="['/Mes mémos listes']" class="dropdown-item"
+              >Mes listes</a
+            >
+          </li>
+          <li>
+            <a [routerLink]="['/Mes quiz']" class="dropdown-item">Mes quiz</a>
+          </li>
+        </ul>
       </li>
     </ul>
+
     <form class="form-inline my-2 my-lg-0">
       <div class="input-group">
         <input
@@ -59,6 +61,7 @@
         <button type="submit" class="searchButton">Rechercher</button>
       </div>
     </form>
+
     <div class="ml-auto">
       @if (!currentUser) {
       <app-leasha-button
@@ -72,29 +75,6 @@
       ></app-leasha-button>
       }
     </div>
-    <div class="dropdown">
-      <a
-        href="#"
-        class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-      >
-        <img
-          src="https://github.com/mdo.png"
-          alt=""
-          width="32"
-          height="32"
-          class="rounded-circle me-2"
-        />
-        <strong>{{ currentUser?.username }}</strong>
-      </a>
-      <ul class="dropdown-menu text-small shadow">
-        <li><a class="dropdown-item" href="#">New project...</a></li>
-        <li><a class="dropdown-item" href="#">Settings</a></li>
-        <li><a class="dropdown-item" href="#">Profile</a></li>
-        <li><hr class="dropdown-divider" /></li>
-        <li><a class="dropdown-item" href="#">Sign out</a></li>
-      </ul>
-    </div>
+    <strong>{{ currentUser?.username }}</strong>
   </div>
 </nav>

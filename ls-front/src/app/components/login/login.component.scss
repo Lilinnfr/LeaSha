@@ -1,17 +1,27 @@
+@import "../../variables.scss";
+
+.login-page {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 100vh;
+  padding: 0 20px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
 .registration-section,
 .login-section {
-  position: fixed;
-  top: 50%;
-  width: 45%;
-  transform: translateY(-50%);
-}
+  width: 35%;
+  margin: 10vw;
 
-.registration-section {
-  left: 5%;
-}
-
-.login-section {
-  right: 5%;
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-bottom: 20px;
+  }
 }
 
 dialog {
