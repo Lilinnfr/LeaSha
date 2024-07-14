@@ -33,7 +33,7 @@ public class CardController {
             List<CardEntity> cartes = cardService.listCartesByMemo(memoId);
             return new ResponseEntity<>(cartes, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
-            log.info("Mémo non dispo");
+            log.info("Pas de mémo avec id {}", memoId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
@@ -42,7 +42,7 @@ public class CardController {
     public ResponseEntity<CardEntity> getCardById(@PathVariable("memoId") long memoId, @PathVariable("carteId") long id) {
         CardEntity card = cardService.getCarte(id);
         if (card == null) {
-            log.info("Pas de carte avec ID {}", id);
+            log.info("Pas de carte avec id {}", id);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(card, HttpStatus.OK);
@@ -50,8 +50,13 @@ public class CardController {
 
     @PostMapping("/creation")
     public ResponseEntity<CardEntity> createCard(@RequestBody CardEntity cardEntity, @RequestParam Long memoId) {
-        CardEntity createdCard = cardService.addCarte(cardEntity, memoId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdCard);
+        try {
+            CardEntity createdCard = cardService.addCarte(cardEntity, memoId);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdCard);
+        } catch (EntityNotFoundException e) {
+            log.info("Pas de mémo trouvé avec id {}", memoId);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping("/modification/{id}")
@@ -60,7 +65,7 @@ public class CardController {
             CardEntity updatedCard = cardService.updateCarte(id, cardEntity);
             return new ResponseEntity<>(updatedCard, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
-            log.info("Pas de carte avec ID {}", id);
+            log.info("Pas de carte avec id {}", id);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

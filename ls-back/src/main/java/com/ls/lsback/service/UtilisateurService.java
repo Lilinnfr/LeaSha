@@ -31,19 +31,13 @@ public class UtilisateurService implements UserDetailsService {
 
     public UtilisateurEntity addUtilisateur(UtilisateurEntity utilisateurEntity) {
         // on vérifie le format de l'email
-        if (!utilisateurEntity.getEmail().contains("@")) {
-            throw new RuntimeException("Le format est invalide");
-        }
-        if (!utilisateurEntity.getEmail().contains(".")) {
-            throw new RuntimeException("Le format est invalide");
-        }
+        validateEmailFormat(utilisateurEntity.getEmail());
         // on récupère l'email de l'utilisateur
-        Optional<UtilisateurEntity> utilisateur = this.utilisateurRepository.findByEmail(utilisateurEntity.getEmail());
-        if (utilisateur.isPresent()) {
+        if (utilisateurRepository.findByEmail(utilisateurEntity.getEmail()).isPresent()) {
             throw new RuntimeException("Cet email est déjà utilisé");
         }
         // on récupère le mot de passe utilisateur pour le crypter
-        String encryptedPassword = this.passwordEncoder.encode(utilisateurEntity.getPassword());
+        String encryptedPassword = passwordEncoder.encode(utilisateurEntity.getPassword());
         // puis on attribue le mot de passe crypté à l'utilisateur
         utilisateurEntity.setPassword(encryptedPassword);
         // et enfin, on enregistre le nouvel utilisateur
@@ -53,54 +47,56 @@ public class UtilisateurService implements UserDetailsService {
         return nouvelUtilisateur;
     }
 
+    private void validateEmailFormat(String email) {
+        if (email == null || !email.contains("@") || !email.contains(".")) {
+            throw new RuntimeException("Le format de l'email est invalide");
+        }
+    }
+
     public void activation(Map<String, String> activation) {
         // stocke la validation
-        ValidationEntity validation = this.validationService.getValidationByCode(activation.get("code"));
+        ValidationEntity validation = validationService.getValidationByCode(activation.get("code"));
         // si le moment où l'utilisateur vient activer son compte arrive après le moment d'expiration, on envoie une exception
         if (Instant.now().isAfter(validation.getExpiration())) {
             throw new RuntimeException("Votre code a expiré");
         }
         // sinon on vient simplement chercher le bon utilisateur dans la bdd
-        UtilisateurEntity activatedUser = this.utilisateurRepository.findById(validation.getUtilisateur().getId()).orElseThrow(() -> new RuntimeException("Utilisateur inconnu"));
+        UtilisateurEntity activatedUser = utilisateurRepository.findById(validation.getUtilisateur().getId()).orElseThrow(() -> new RuntimeException("Utilisateur inconnu"));
         // le statut passe sur actif
         activatedUser.setActif(true);
         // on enregistre le nouvel utilisateur après son changement de statut
-        this.utilisateurRepository.save(activatedUser);
+        utilisateurRepository.save(activatedUser);
     }
 
     public void deleteUtilisateur(long id) {
-        Optional<UtilisateurEntity> memo = utilisateurRepository.findById(id);
-        if (memo.isPresent()) {
-            utilisateurRepository.deleteById(id);
-        } else {
-            throw new EntityNotFoundException("L'utilisateur avec l'ID " + id + " n'existe pas.");
-        }
+        UtilisateurEntity utilisateur = utilisateurRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("L'utilisateur avec l'ID " + id + " n'existe pas."));
+        utilisateurRepository.delete(utilisateur);
     }
 
     @Override
     public UtilisateurEntity loadUserByUsername(String username) throws UsernameNotFoundException {
         // on va chercher l'utilisateur
-        return this.utilisateurRepository
+        return utilisateurRepository
                 .findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("Aucun utilisateur ne correspond à cet identifiant"));
     }
 
     public void changePassword(Map<String, String> param) {
-        UtilisateurEntity utilisateur = this.loadUserByUsername(param.get("email"));
-        this.validationService.saveUser(utilisateur);
+        UtilisateurEntity utilisateur = loadUserByUsername(param.get("email"));
+        validationService.saveUser(utilisateur);
     }
 
     public void newPassword(Map<String, String> param) {
         // on va chercher l'utilisateur
-        UtilisateurEntity utilisateur = this.loadUserByUsername(param.get("email"));
+        UtilisateurEntity utilisateur = loadUserByUsername(param.get("email"));
         // on récupère le code d'activation
         ValidationEntity validation = validationService.getValidationByCode(param.get("code"));
         // si l'email de l'utilisateur est le même que celui de la base de données
         if (validation.getUtilisateur().getEmail().equals(utilisateur.getEmail())) {
             // on récupère son nouveau mot de passe pour l'encrypter
-            String encryptedPassword = this.passwordEncoder.encode(param.get("password"));
+            String encryptedPassword = passwordEncoder.encode(param.get("password"));
             utilisateur.setPassword(encryptedPassword);
-            this.utilisateurRepository.save(utilisateur);
+            utilisateurRepository.save(utilisateur);
         }
     }
-
 }

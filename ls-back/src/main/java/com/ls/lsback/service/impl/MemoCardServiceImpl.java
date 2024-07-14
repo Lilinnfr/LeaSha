@@ -23,43 +23,37 @@ public class MemoCardServiceImpl implements MemoCardService {
         this.memoCardRepository = memoCardRepository;
     }
 
+    @Override
     public List<MemoCardEntity> listMemoCarte(String email) {
-        List<MemoCardEntity> memos = memoCardRepository.findByUtilisateurEmail(email);
-        return memos;
+        return memoCardRepository.findByUtilisateurEmail(email);
     }
 
     @Override
     public MemoCardEntity getMemoCarte(long id) {
-        return memoCardRepository.findById(id).orElse(null);
+        return memoCardRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Mémo non trouvé avec ID " + id));
     }
 
+    @Override
     public MemoCardEntity addMemoCarte(MemoCardEntity memoCard) {
         UtilisateurEntity utilisateur = (UtilisateurEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         memoCard.setUtilisateur(utilisateur);
-        return this.memoCardRepository.save(memoCard);
+        return memoCardRepository.save(memoCard);
     }
 
     @Override
     public MemoCardEntity updateMemoCarte(long id, MemoCardEntity memoCardEntity) {
-        Optional<MemoCardEntity> existingMemo = memoCardRepository.findById(id);
-        if (existingMemo.isPresent()) {
-            MemoCardEntity memoToUpdate = existingMemo.get();
-            memoToUpdate.setTitre(memoCardEntity.getTitre());
-            memoToUpdate.setCategorie(memoCardEntity.getCategorie());
-            memoToUpdate.setDescription(memoCardEntity.getDescription());
-            return this.memoCardRepository.save(memoToUpdate);
-        } else {
-            throw new EntityNotFoundException("Pas de mémo avec id " + id);
-        }
+        MemoCardEntity memoToUpdate = memoCardRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Pas de mémo avec id " + id));
+        memoToUpdate.setTitre(memoCardEntity.getTitre());
+        memoToUpdate.setCategorie(memoCardEntity.getCategorie());
+        memoToUpdate.setDescription(memoCardEntity.getDescription());
+        return memoCardRepository.save(memoToUpdate);
     }
 
     @Override
     public void deleteMemoCarte(long id) {
-        Optional<MemoCardEntity> memo = memoCardRepository.findById(id);
-        if (memo.isPresent()) {
-            memoCardRepository.deleteById(id);
-        } else {
-            throw new EntityNotFoundException("Le mémo avec l'ID " + id + " n'existe pas.");
-        }
+        MemoCardEntity memo = memoCardRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Le mémo avec l'id " + id + " n'existe pas."));
+        memoCardRepository.delete(memo);
     }
 }

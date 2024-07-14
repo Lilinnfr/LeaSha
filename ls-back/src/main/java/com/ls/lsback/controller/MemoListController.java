@@ -18,11 +18,9 @@ import java.util.List;
 public class MemoListController {
 
     private final MemoListService memoListService;
-    private final ObjectMapper objectMapper;
 
-    public MemoListController(MemoListService memoListService, ObjectMapper objectMapper) {
+    public MemoListController(MemoListService memoListService) {
         this.memoListService = memoListService;
-        this.objectMapper = objectMapper;
     }
 
     @GetMapping("/liste")
@@ -39,7 +37,7 @@ public class MemoListController {
     public ResponseEntity<MemoListEntity> getMemoListById(@PathVariable("id") long id) {
         MemoListEntity memo = memoListService.getMemoListe(id);
         if (memo == null) {
-            log.info("Mémo avec ID {} non trouvé", id);
+            log.info("Mémo avec id {} non trouvé", id);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(memo, HttpStatus.OK);
@@ -60,21 +58,4 @@ public class MemoListController {
             return ResponseEntity.notFound().build();
         }
     }
-
-    private String convertObjectToJson(Object object) {
-        try {
-            return objectMapper.writeValueAsString(object);
-        } catch (JsonProcessingException e) {
-            return null;
-        }
-    }
-
-    private <T> T convertJsonToObject(String json, Class<T> valueType) {
-        try {
-            return objectMapper.readValue(json, valueType);
-        } catch (JsonProcessingException e) {
-            return null;
-        }
-    }
-
 }

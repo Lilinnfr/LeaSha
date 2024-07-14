@@ -22,42 +22,49 @@ import java.util.List;
 public class MemoCardController {
 
     private final MemoCardService memoCardService;
-    private final ObjectMapper objectMapper;
 
-    public MemoCardController(MemoCardService memoCardService, ObjectMapper objectMapper) {
+    public MemoCardController(MemoCardService memoCardService) {
         this.memoCardService = memoCardService;
-        this.objectMapper = objectMapper;
     }
 
     @GetMapping("/Mes mémos cartes")
     public ResponseEntity<List<MemoCardEntity>> listMemoCard() {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String email = userDetails.getUsername();
-        log.info("Récupération des mémos pour l'utilisateur : {}", email);
-        List<MemoCardEntity> memos = memoCardService.listMemoCarte(email);
-        log.info("Mémos récupérés : {}", memos);
-        if (memos.isEmpty()) {
-            log.info("Mémos non dispo");
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        try {
+            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            String email = userDetails.getUsername();
+            log.info("Récupération des mémos");
+            List<MemoCardEntity> memos = memoCardService.listMemoCarte(email);
+            if (memos.isEmpty()) {
+                log.info("Aucun mémo trouvé");
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(memos, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Erreur lors de la récupération des mémos", e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(memos, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<MemoCardEntity> getMemoCardById(@PathVariable("id") long id) {
-        MemoCardEntity memo = memoCardService.getMemoCarte(id);
-        if (memo == null) {
-            log.info("Mémo avec ID {} non trouvé", id);
+        try {
+            MemoCardEntity memo = memoCardService.getMemoCarte(id);
+            return new ResponseEntity<>(memo, HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            log.info("Mémo avec id {} non trouvé", id);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(memo, HttpStatus.OK);
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/creation")
     public ResponseEntity<MemoCardEntity> createMemoCard(@RequestBody MemoCardEntity memoCardEntity) {
-        MemoCardEntity createdMemoCard = this.memoCardService.addMemoCarte(memoCardEntity);
-        return new ResponseEntity<>(createdMemoCard, HttpStatus.CREATED);
+        try {
+            MemoCardEntity createdMemoCard = memoCardService.addMemoCarte(memoCardEntity);
+            return new ResponseEntity<>(createdMemoCard, HttpStatus.CREATED);
+        } catch (Exception e) {
+            log.error("Erreur lors de la création du mémo", e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PutMapping("/modification/{id}")
@@ -66,7 +73,7 @@ public class MemoCardController {
             MemoCardEntity updatedMemoCard = memoCardService.updateMemoCarte(id, memoCardEntity);
             return new ResponseEntity<>(updatedMemoCard, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
-            log.info("Pas de mémo avec ID {}", id);
+            log.info("Pas de mémo avec id {}", id);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -77,26 +84,8 @@ public class MemoCardController {
             memoCardService.deleteMemoCarte(id);
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
-            log.error("Une erreur s'est produite lors de la suppression du mémo avec l'ID : {}", id, e);
+            log.error("Une erreur s'est produite lors de la suppression du mémo avec l'id : {}", id, e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
-    private String convertObjectToJson(Object object) {
-        try {
-            return objectMapper.writeValueAsString(object);
-        } catch (JsonProcessingException e) {
-            // Gérer l'exception
-            return null;
-        }
-    }
-
-    private <T> T convertJsonToObject(String json, Class<T> valueType) {
-        try {
-            return objectMapper.readValue(json, valueType);
-        } catch (JsonProcessingException e) {
-            return null;
-        }
-    }
-
 }
