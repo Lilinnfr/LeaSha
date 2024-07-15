@@ -17,6 +17,22 @@
             class="btn btn-style mt-2"
             >Voir le mémo</a
           >
+          <div class="description-container mt-2">
+            <button
+              class="btn btn-link description-toggle"
+              *ngIf="cardMemo.id"
+              (click)="toggleDescription(cardMemo.id)"
+            >
+              {{ isDescriptionVisible[cardMemo.id] ? "▼" : "►" }} Afficher
+              description
+            </button>
+            <p
+              *ngIf="cardMemo.id && isDescriptionVisible[cardMemo.id]"
+              class="card-text mt-2"
+            >
+              {{ cardMemo.description }}
+            </p>
+          </div>
           <div
             class="button-group mt-2 d-flex flex-column flex-sm-row justify-content-between align-items-stretch"
           >

@@ -23,6 +23,7 @@ export class AllCardMemosComponent implements OnInit {
   selectedMemoId: number | null = null;
   memoIdToDelete: number | null = null;
   submitButtonText: string = 'Ajouter';
+  isDescriptionVisible: { [key: number]: boolean } = {};
 
   constructor(
     private cardMemoService: CardMemoService,
@@ -152,5 +153,9 @@ export class AllCardMemosComponent implements OnInit {
     this.submitButtonText = 'Ajouter';
     this.addMemoDialog.nativeElement.close();
     this.addMemoForm.reset();
+  }
+
+  toggleDescription(memoId: number) {
+    this.isDescriptionVisible[memoId] = !this.isDescriptionVisible[memoId];
   }
 }

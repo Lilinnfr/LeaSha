@@ -75,3 +75,32 @@ textarea {
     flex: 1;
   }
 }
+
+.description-container {
+  position: relative;
+}
+
+.description-toggle {
+  background: none;
+  border: none;
+  color: $leasha-black;
+  cursor: pointer;
+  font-size: 1rem;
+  text-decoration: none;
+  padding: 0;
+  text-align: left;
+}
+
+.description-text {
+  display: none;
+  margin-top: 10px;
+}
+
+.description-container .description-text.show {
+  display: block;
+}
+
+.description-toggle {
+  display: flex;
+  align-items: center;
+}
