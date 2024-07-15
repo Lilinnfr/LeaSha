@@ -1,10 +1,7 @@
 package com.ls.lsback.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ls.lsback.entity.CardEntity;
-import com.ls.lsback.entity.MemoCardEntity;
-import com.ls.lsback.service.MemoCardService;
+import com.ls.lsback.entity.CardMemoEntity;
+import com.ls.lsback.service.CardMemoService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -19,21 +16,21 @@ import java.util.List;
 @RestController
 @RequestMapping(value="/memoCarte")
 @Slf4j
-public class MemoCardController {
+public class CardMemoController {
 
-    private final MemoCardService memoCardService;
+    private final CardMemoService cardMemoService;
 
-    public MemoCardController(MemoCardService memoCardService) {
-        this.memoCardService = memoCardService;
+    public CardMemoController(CardMemoService cardMemoService) {
+        this.cardMemoService = cardMemoService;
     }
 
     @GetMapping("/Mes mémos cartes")
-    public ResponseEntity<List<MemoCardEntity>> listMemoCard() {
+    public ResponseEntity<List<CardMemoEntity>> listMemoCard() {
         try {
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             String email = userDetails.getUsername();
             log.info("Récupération des mémos");
-            List<MemoCardEntity> memos = memoCardService.listMemoCarte(email);
+            List<CardMemoEntity> memos = cardMemoService.listMemoCarte(email);
             if (memos.isEmpty()) {
                 log.info("Aucun mémo trouvé");
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -46,9 +43,9 @@ public class MemoCardController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MemoCardEntity> getMemoCardById(@PathVariable("id") long id) {
+    public ResponseEntity<CardMemoEntity> getMemoCardById(@PathVariable("id") long id) {
         try {
-            MemoCardEntity memo = memoCardService.getMemoCarte(id);
+            CardMemoEntity memo = cardMemoService.getMemoCarte(id);
             return new ResponseEntity<>(memo, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             log.info("Mémo avec id {} non trouvé", id);
@@ -57,9 +54,9 @@ public class MemoCardController {
     }
 
     @PostMapping("/creation")
-    public ResponseEntity<MemoCardEntity> createMemoCard(@RequestBody MemoCardEntity memoCardEntity) {
+    public ResponseEntity<CardMemoEntity> createMemoCard(@RequestBody CardMemoEntity cardMemoEntity) {
         try {
-            MemoCardEntity createdMemoCard = memoCardService.addMemoCarte(memoCardEntity);
+            CardMemoEntity createdMemoCard = cardMemoService.addMemoCarte(cardMemoEntity);
             return new ResponseEntity<>(createdMemoCard, HttpStatus.CREATED);
         } catch (Exception e) {
             log.error("Erreur lors de la création du mémo", e);
@@ -68,9 +65,9 @@ public class MemoCardController {
     }
 
     @PutMapping("/modification/{id}")
-    public ResponseEntity<MemoCardEntity> updateMemoCard(@PathVariable("id") long id, @RequestBody MemoCardEntity memoCardEntity) {
+    public ResponseEntity<CardMemoEntity> updateMemoCard(@PathVariable("id") long id, @RequestBody CardMemoEntity cardMemoEntity) {
         try {
-            MemoCardEntity updatedMemoCard = memoCardService.updateMemoCarte(id, memoCardEntity);
+            CardMemoEntity updatedMemoCard = cardMemoService.updateMemoCarte(id, cardMemoEntity);
             return new ResponseEntity<>(updatedMemoCard, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             log.info("Pas de mémo avec id {}", id);
@@ -81,7 +78,7 @@ public class MemoCardController {
     @DeleteMapping("/suppression/{id}")
     public ResponseEntity<Void> deleteMemoCardById(@PathVariable long id) {
         try {
-            memoCardService.deleteMemoCarte(id);
+            cardMemoService.deleteMemoCarte(id);
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
             log.error("Une erreur s'est produite lors de la suppression du mémo avec l'id : {}", id, e);

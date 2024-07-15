@@ -26,6 +26,6 @@ public class CardEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "memo_id", nullable = false)
     @JsonProperty("memo_id")
-    private MemoCardEntity memoId;
+    private CardMemoEntity memoId;
 
 }

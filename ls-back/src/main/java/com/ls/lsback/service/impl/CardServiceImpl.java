@@ -1,34 +1,33 @@
 package com.ls.lsback.service.impl;
 
 import com.ls.lsback.entity.CardEntity;
-import com.ls.lsback.entity.MemoCardEntity;
+import com.ls.lsback.entity.CardMemoEntity;
 import com.ls.lsback.repository.CardRepository;
-import com.ls.lsback.repository.MemoCardRepository;
+import com.ls.lsback.repository.CardMemoRepository;
 import com.ls.lsback.service.CardService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CardServiceImpl  implements CardService {
 
     private final CardRepository cardRepository;
 
-    private final MemoCardRepository memoCardRepository;
+    private final CardMemoRepository cardMemoRepository;
 
 
     @Autowired
-    public CardServiceImpl(CardRepository cardRepository, MemoCardRepository memoCardRepository) {
+    public CardServiceImpl(CardRepository cardRepository, CardMemoRepository cardMemoRepository) {
         this.cardRepository = cardRepository;
-        this.memoCardRepository = memoCardRepository;
+        this.cardMemoRepository = cardMemoRepository;
     }
 
     @Override
     public List<CardEntity> listCartesByMemo(long memoId) {
-        MemoCardEntity memo = memoCardRepository.findById(memoId)
+        CardMemoEntity memo = cardMemoRepository.findById(memoId)
                 .orElseThrow(() -> new EntityNotFoundException("Mémo non trouvé avec ID " + memoId));
         return cardRepository.findAllCardsByMemoId(memo);
     }
@@ -41,7 +40,7 @@ public class CardServiceImpl  implements CardService {
 
     @Override
     public CardEntity addCarte(CardEntity cardEntity, long memoId) {
-        MemoCardEntity memo = memoCardRepository.findById(memoId)
+        CardMemoEntity memo = cardMemoRepository.findById(memoId)
                 .orElseThrow(() -> new EntityNotFoundException("Mémo non trouvé avec ID " + memoId));
         cardEntity.setMemoId(memo);
         return cardRepository.save(cardEntity);

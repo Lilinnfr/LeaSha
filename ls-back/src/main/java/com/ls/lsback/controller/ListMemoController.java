@@ -1,9 +1,7 @@
 package com.ls.lsback.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ls.lsback.entity.MemoListEntity;
-import com.ls.lsback.service.MemoListService;
+import com.ls.lsback.entity.ListMemoEntity;
+import com.ls.lsback.service.ListMemoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,17 +13,17 @@ import java.util.List;
 @RestController
 @RequestMapping(value="/memoListe")
 @Slf4j
-public class MemoListController {
+public class ListMemoController {
 
-    private final MemoListService memoListService;
+    private final ListMemoService listMemoService;
 
-    public MemoListController(MemoListService memoListService) {
-        this.memoListService = memoListService;
+    public ListMemoController(ListMemoService listMemoService) {
+        this.listMemoService = listMemoService;
     }
 
     @GetMapping("/liste")
-    public ResponseEntity<List<MemoListEntity>> listMemoList() {
-        List<MemoListEntity> memos = memoListService.listMemoListe();
+    public ResponseEntity<List<ListMemoEntity>> listMemoList() {
+        List<ListMemoEntity> memos = listMemoService.listMemoListe();
         if (memos.isEmpty()) {
             log.info("Mémos non dispo");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -34,8 +32,8 @@ public class MemoListController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MemoListEntity> getMemoListById(@PathVariable("id") long id) {
-        MemoListEntity memo = memoListService.getMemoListe(id);
+    public ResponseEntity<ListMemoEntity> getMemoListById(@PathVariable("id") long id) {
+        ListMemoEntity memo = listMemoService.getMemoListe(id);
         if (memo == null) {
             log.info("Mémo avec id {} non trouvé", id);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -44,14 +42,14 @@ public class MemoListController {
     }
 
     @PostMapping("/creation")
-    public ResponseEntity<MemoListEntity> createMemoList(@RequestBody MemoListEntity memoListEntity) {
-        MemoListEntity createdMemo = memoListService.addMemoListe(memoListEntity);
+    public ResponseEntity<ListMemoEntity> createMemoList(@RequestBody ListMemoEntity listMemoEntity) {
+        ListMemoEntity createdMemo = listMemoService.addMemoListe(listMemoEntity);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdMemo);
     }
 
     @DeleteMapping("/suppression/{id}")
     public ResponseEntity<Void> deleteMemoListById(@PathVariable long id) {
-        boolean deletedMemo = memoListService.deleteMemoListe(id);
+        boolean deletedMemo = listMemoService.deleteMemoListe(id);
         if (deletedMemo) {
             return ResponseEntity.noContent().build();
         } else {

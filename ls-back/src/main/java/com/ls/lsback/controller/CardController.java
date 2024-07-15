@@ -1,11 +1,7 @@
 package com.ls.lsback.controller;
 
 import com.ls.lsback.entity.CardEntity;
-import com.ls.lsback.entity.MemoCardEntity;
-import com.ls.lsback.repository.CardRepository;
-import com.ls.lsback.repository.MemoCardRepository;
 import com.ls.lsback.service.CardService;
-import com.ls.lsback.service.MemoCardService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -28,7 +24,7 @@ public class CardController {
     }
 
     @GetMapping("/{memoId}")
-    public ResponseEntity<List<CardEntity>> listCardsByMemoId(@PathVariable("memoId") long memoId) {
+    public ResponseEntity<List<CardEntity>> cardListByMemoId(@PathVariable("memoId") long memoId) {
         try {
             List<CardEntity> cartes = cardService.listCartesByMemo(memoId);
             return new ResponseEntity<>(cartes, HttpStatus.OK);

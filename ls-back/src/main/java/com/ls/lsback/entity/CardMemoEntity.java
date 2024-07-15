@@ -8,7 +8,6 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 @Entity
 @Table(name = "memo_carte")
@@ -16,7 +15,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class MemoCardEntity {
+public class CardMemoEntity {
 
     @Id
     @Column(name = "id")

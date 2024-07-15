@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 @Setter
 @NoArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class MemoListEntity {
+public class ListMemoEntity {
 
     @Id
     @Column(name = "id")
