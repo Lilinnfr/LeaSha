@@ -25,7 +25,7 @@ public class CardMemoController {
     }
 
     @GetMapping("/Mes mémos cartes")
-    public ResponseEntity<List<CardMemoEntity>> listMemoCard() {
+    public ResponseEntity<List<CardMemoEntity>> cardMemoList() {
         try {
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             String email = userDetails.getUsername();
@@ -43,7 +43,7 @@ public class CardMemoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CardMemoEntity> getMemoCardById(@PathVariable("id") long id) {
+    public ResponseEntity<CardMemoEntity> getCardMemoById(@PathVariable("id") long id) {
         try {
             CardMemoEntity memo = cardMemoService.getMemoCarte(id);
             return new ResponseEntity<>(memo, HttpStatus.OK);
@@ -54,10 +54,10 @@ public class CardMemoController {
     }
 
     @PostMapping("/creation")
-    public ResponseEntity<CardMemoEntity> createMemoCard(@RequestBody CardMemoEntity cardMemoEntity) {
+    public ResponseEntity<CardMemoEntity> createCardMemo(@RequestBody CardMemoEntity cardMemoEntity) {
         try {
-            CardMemoEntity createdMemoCard = cardMemoService.addMemoCarte(cardMemoEntity);
-            return new ResponseEntity<>(createdMemoCard, HttpStatus.CREATED);
+            CardMemoEntity createdCardMemo = cardMemoService.addMemoCarte(cardMemoEntity);
+            return new ResponseEntity<>(createdCardMemo, HttpStatus.CREATED);
         } catch (Exception e) {
             log.error("Erreur lors de la création du mémo", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -65,10 +65,10 @@ public class CardMemoController {
     }
 
     @PutMapping("/modification/{id}")
-    public ResponseEntity<CardMemoEntity> updateMemoCard(@PathVariable("id") long id, @RequestBody CardMemoEntity cardMemoEntity) {
+    public ResponseEntity<CardMemoEntity> updateCardMemo(@PathVariable("id") long id, @RequestBody CardMemoEntity cardMemoEntity) {
         try {
-            CardMemoEntity updatedMemoCard = cardMemoService.updateMemoCarte(id, cardMemoEntity);
-            return new ResponseEntity<>(updatedMemoCard, HttpStatus.OK);
+            CardMemoEntity updatedCardMemo = cardMemoService.updateMemoCarte(id, cardMemoEntity);
+            return new ResponseEntity<>(updatedCardMemo, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             log.info("Pas de mémo avec id {}", id);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -76,7 +76,7 @@ public class CardMemoController {
     }
 
     @DeleteMapping("/suppression/{id}")
-    public ResponseEntity<Void> deleteMemoCardById(@PathVariable long id) {
+    public ResponseEntity<Void> deleteCardMemoById(@PathVariable long id) {
         try {
             cardMemoService.deleteMemoCarte(id);
             return ResponseEntity.noContent().build();

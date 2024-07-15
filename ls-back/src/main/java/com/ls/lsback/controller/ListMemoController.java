@@ -32,7 +32,7 @@ public class ListMemoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ListMemoEntity> getMemoListById(@PathVariable("id") long id) {
+    public ResponseEntity<ListMemoEntity> getListMemoById(@PathVariable("id") long id) {
         ListMemoEntity memo = listMemoService.getMemoListe(id);
         if (memo == null) {
             log.info("Mémo avec id {} non trouvé", id);
@@ -42,13 +42,13 @@ public class ListMemoController {
     }
 
     @PostMapping("/creation")
-    public ResponseEntity<ListMemoEntity> createMemoList(@RequestBody ListMemoEntity listMemoEntity) {
+    public ResponseEntity<ListMemoEntity> createListMemo(@RequestBody ListMemoEntity listMemoEntity) {
         ListMemoEntity createdMemo = listMemoService.addMemoListe(listMemoEntity);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdMemo);
     }
 
     @DeleteMapping("/suppression/{id}")
-    public ResponseEntity<Void> deleteMemoListById(@PathVariable long id) {
+    public ResponseEntity<Void> deleteListMemoById(@PathVariable long id) {
         boolean deletedMemo = listMemoService.deleteMemoListe(id);
         if (deletedMemo) {
             return ResponseEntity.noContent().build();

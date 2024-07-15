@@ -8,7 +8,7 @@ import { AuthService } from '../../../services/auth.service';
 @Injectable({
   providedIn: 'root',
 })
-export class MemoCardService {
+export class CardMemoService {
   readonly API_URL = 'http://localhost:8080';
 
   constructor(

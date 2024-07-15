@@ -41,7 +41,4 @@ public class ListMemoEntity {
     @Enumerated(EnumType.STRING)
     private CategorieMemo categorie;
 
-   /* @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "creer_par")
-    private UtilisateurEntity creerPar;*/
 }

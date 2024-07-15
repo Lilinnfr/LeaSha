@@ -33,10 +33,10 @@ public class CardMemoServiceImpl implements CardMemoService {
     }
 
     @Override
-    public CardMemoEntity addMemoCarte(CardMemoEntity memoCard) {
+    public CardMemoEntity addMemoCarte(CardMemoEntity cardMemo) {
         UtilisateurEntity utilisateur = (UtilisateurEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        memoCard.setUtilisateur(utilisateur);
-        return cardMemoRepository.save(memoCard);
+        cardMemo.setUtilisateur(utilisateur);
+        return cardMemoRepository.save(cardMemo);
     }
 
     @Override

@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
-import { MemoCardService } from '../../services/card-memo.service';
+import { CardMemoService } from '../../services/card-memo.service';
 import { CardMemo } from '../../models/card-memo';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Category } from '../../enums/category.enum';
@@ -10,7 +10,7 @@ import { CategoryService } from '../../services/category.service';
   selector: 'app-all-card-memos',
   templateUrl: './all-card-memos.component.html',
   styleUrl: './all-card-memos.component.scss',
-  providers: [MemoCardService],
+  providers: [CardMemoService],
 })
 export class AllCardMemosComponent implements OnInit {
   @ViewChild('addMemoDialog') addMemoDialog!: ElementRef<HTMLDialogElement>;
@@ -25,7 +25,7 @@ export class AllCardMemosComponent implements OnInit {
   submitButtonText: string = 'Ajouter';
 
   constructor(
-    private memoCardService: MemoCardService,
+    private cardMemoService: CardMemoService,
     private categoryService: CategoryService,
     private fb: FormBuilder
   ) {
@@ -42,7 +42,7 @@ export class AllCardMemosComponent implements OnInit {
   }
 
   getMemos() {
-    this.memoCardService.getAllCardMemos().subscribe({
+    this.cardMemoService.getAllCardMemos().subscribe({
       next: (response: CardMemo[]) => {
         this.cardMemos = response;
         console.log('Mémos : ', this.cardMemos);
@@ -64,7 +64,7 @@ export class AllCardMemosComponent implements OnInit {
         description: this.addMemoForm.get('description')?.value || '',
       };
       console.log('Données du formulaire avant envoi :', memo);
-      this.memoCardService.addMemo(memo).subscribe({
+      this.cardMemoService.addMemo(memo).subscribe({
         next: (response) => {
           console.log('Réponse après ajout :', response);
           this.getMemos();
@@ -88,7 +88,7 @@ export class AllCardMemosComponent implements OnInit {
         categorie: this.addMemoForm.get('categorie')?.value || '',
         description: this.addMemoForm.get('description')?.value || '',
       };
-      this.memoCardService.updateMemo(this.selectedMemoId!, memo).subscribe({
+      this.cardMemoService.updateMemo(this.selectedMemoId!, memo).subscribe({
         next: (response) => {
           console.log(
             'Réponse du backend après modification de mémo :',
@@ -132,7 +132,7 @@ export class AllCardMemosComponent implements OnInit {
 
   confirmDeleteMemo() {
     if (this.memoIdToDelete !== null) {
-      this.memoCardService.deleteMemo(this.memoIdToDelete).subscribe({
+      this.cardMemoService.deleteMemo(this.memoIdToDelete).subscribe({
         next: () => {
           console.log('Mémo supprimé');
           this.getMemos();
