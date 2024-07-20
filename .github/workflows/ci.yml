@@ -18,9 +18,12 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-       
-    - name: Verify Java Version
-      run: java -version
+
+    - name: Navigate to app directory
+      run: cd ls-back
 
     - name: Build with Maven
       run: mvn clean install
+
+    - name: Run tests
+      run: mvn test
