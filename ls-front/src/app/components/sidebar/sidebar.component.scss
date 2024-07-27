@@ -4,9 +4,36 @@
   position: fixed;
   width: 280px;
   height: 100vh;
-  background-color: $leasha-brown;
+  background: linear-gradient(
+    to right,
+    $leasha-brown,
+    $leasha-dark-beige,
+    $leasha-light-beige
+  );
+  border-right: 1px solid $leasha-light-beige;
+  box-shadow: 4px 0 4px -2px $leasha-light-beige;
+  transition: background-color ease 1s;
+}
+
+.sidebar:hover {
+  background: linear-gradient(
+    to right,
+    $leasha-light-beige,
+    $leasha-dark-beige,
+    $leasha-brown
+  );
+}
+
+.nav-link {
+  color: $leasha-black;
+}
+
+.nav-link:hover {
+  background-color: $leasha-white;
+  opacity: 0.5;
 }
 
 .nav-link.active {
-  background-color: $leasha-dark-beige;
+  background-color: $leasha-white;
+  opacity: 0.9;
 }

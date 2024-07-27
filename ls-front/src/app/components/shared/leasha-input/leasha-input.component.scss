@@ -3,7 +3,7 @@
 .input-group {
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
 }
 
 .label {
@@ -13,10 +13,10 @@
 
 .input {
   padding: 10px 15px;
-  border: 1px solid $leasha-black;
+  border: 1px $leasha-white;
   background-color: $leasha-light-beige;
   color: $leasha-black;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 2px 2px 5px $leasha-white;
   width: 100%;
   transition: background-color 0.3s, box-shadow 0.3s;
 }
@@ -24,10 +24,10 @@
 .input:focus {
   outline: none;
   background-color: $leasha-white;
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 2px 2px 5px $leasha-white;
 }
 
 .invalid-feedback {
-  color: red;
+  color: $leasha-red;
   margin-top: 5px;
 }

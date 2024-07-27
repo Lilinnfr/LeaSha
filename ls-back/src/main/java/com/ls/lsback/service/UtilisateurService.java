@@ -61,7 +61,8 @@ public class UtilisateurService implements UserDetailsService {
             throw new RuntimeException("Votre code a expiré");
         }
         // sinon on vient simplement chercher le bon utilisateur dans la bdd
-        UtilisateurEntity activatedUser = utilisateurRepository.findById(validation.getUtilisateur().getId()).orElseThrow(() -> new RuntimeException("Utilisateur inconnu"));
+        UtilisateurEntity activatedUser = utilisateurRepository.findById(validation.getUtilisateur().getId())
+                .orElseThrow(() -> new RuntimeException("Utilisateur inconnu"));
         // le statut passe sur actif
         activatedUser.setActif(true);
         // on enregistre le nouvel utilisateur après son changement de statut
@@ -78,17 +79,19 @@ public class UtilisateurService implements UserDetailsService {
     public UtilisateurEntity loadUserByUsername(String username) throws UsernameNotFoundException {
         // on va chercher l'utilisateur
         return utilisateurRepository
-                .findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("Aucun utilisateur ne correspond à cet identifiant"));
+                .findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("Aucun utilisateur ne correspond à cet email"));
     }
 
     public void changePassword(Map<String, String> param) {
-        UtilisateurEntity utilisateur = loadUserByUsername(param.get("email"));
+        UtilisateurEntity utilisateur = utilisateurRepository.findByEmail(param.get("email"))
+                .orElseThrow(() -> new UsernameNotFoundException("Aucun utilisateur ne correspond à cet email"));
         validationService.saveUser(utilisateur);
     }
 
     public void newPassword(Map<String, String> param) {
         // on va chercher l'utilisateur
-        UtilisateurEntity utilisateur = loadUserByUsername(param.get("email"));
+        UtilisateurEntity utilisateur = utilisateurRepository.findByEmail(param.get("email"))
+                .orElseThrow(() -> new UsernameNotFoundException("Aucun utilisateur ne correspond à cet email"));
         // on récupère le code d'activation
         ValidationEntity validation = validationService.getValidationByCode(param.get("code"));
         // si l'email de l'utilisateur est le même que celui de la base de données

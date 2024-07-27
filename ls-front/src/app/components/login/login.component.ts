@@ -40,6 +40,7 @@ export class LoginComponent {
   }
 
   onRegister(): void {
+    this.registerForm.markAllAsTouched();
     if (this.registerForm.valid) {
       this.authService.register(this.registerForm.value).subscribe({
         next: (response) => {
@@ -74,6 +75,7 @@ export class LoginComponent {
   }
 
   onLogin(): void {
+    this.loginForm.markAllAsTouched();
     if (this.loginForm.valid) {
       const { username, password } = this.loginForm.value;
       this.authService.login(username, password).subscribe({

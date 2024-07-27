@@ -54,53 +54,80 @@
 </div>
 
 <dialog #addMemoDialog>
-  <div>
-    <h3 *ngIf="selectedMemoId === null">Ajouter un mémo</h3>
-    <h3 *ngIf="selectedMemoId !== null">Modifier un mémo</h3>
+  <div class="dialog-content">
+    <h3>
+      {{ selectedMemoId === null ? "Ajouter un mémo" : "Modifier un mémo" }}
+    </h3>
     <button class="close-button" (click)="closeDialog()">×</button>
-    <form
-      [formGroup]="addMemoForm"
-      (ngSubmit)="selectedMemoId === null ? addMemo() : updateMemo()"
-    >
-      <app-leasha-input
-        [control]="addMemoForm.get('titre')"
-        id="memo"
-        label="Titre * :"
-        type="text"
-        name="memo"
-        placeholder="Saisir le titre du mémo..."
-      ></app-leasha-input>
-      <label>Type de mémo * :</label>
-      <select class="form-select mb-2" formControlName="categorie">
-        <option value="" disabled selected hidden>
-          Sélectionner un type de mémo
-        </option>
-        <option
-          *ngFor="let categorie of categories"
-          [value]="categorie.libelle"
+    <form [formGroup]="addMemoForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <app-leasha-input
+          [control]="addMemoForm.get('titre')"
+          id="memo"
+          label="Titre * :"
+          type="text"
+          name="memo"
+          placeholder="Saisir le titre du mémo..."
+        ></app-leasha-input>
+        <div
+          *ngIf="
+            addMemoForm.get('titre')?.invalid &&
+            (addMemoForm.get('titre')?.touched ||
+              addMemoForm.get('titre')?.dirty)
+          "
+          class="error-message"
         >
-          {{ categorie.libelle }}
-        </option>
-      </select>
-      <label>Description :</label>
-      <textarea
-        id="description"
-        name="description"
-        class="form-control mb-2"
-        rows="5"
-        placeholder="Saisir une description..."
-        formControlName="description"
-      ></textarea>
-      <app-leasha-button
-        type="submit"
-        [buttonText]="submitButtonText"
-      ></app-leasha-button>
-      <app-leasha-button
-        type="button"
-        buttonText="Annuler"
-        (click)="closeDialog()"
-      ></app-leasha-button>
+          * Ce champ est obligatoire
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="label">Type de mémo * :</label>
+        <select class="form-select mb-2" formControlName="categorie">
+          <option value="" disabled selected hidden>
+            Sélectionner un type de mémo
+          </option>
+          <option
+            *ngFor="let categorie of categories"
+            [value]="categorie.libelle"
+          >
+            {{ categorie.libelle }}
+          </option>
+        </select>
+        <div
+          *ngIf="
+            addMemoForm.get('categorie')?.invalid &&
+            (addMemoForm.get('categorie')?.touched ||
+              addMemoForm.get('categorie')?.dirty)
+          "
+          class="error-message"
+        >
+          * Ce champ est obligatoire
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="label">Description :</label>
+        <textarea
+          id="description"
+          name="description"
+          class="form-control mb-2"
+          rows="5"
+          placeholder="Saisir une description..."
+          formControlName="description"
+        ></textarea>
+      </div>
+      <div class="button-group">
+        <app-leasha-button
+          type="submit"
+          [buttonText]="submitButtonText"
+        ></app-leasha-button>
+        <app-leasha-button
+          type="button"
+          buttonText="Annuler"
+          (click)="closeDialog()"
+        ></app-leasha-button>
+      </div>
     </form>
+    <div class="required-legend">* Champ obligatoire</div>
   </div>
 </dialog>
 

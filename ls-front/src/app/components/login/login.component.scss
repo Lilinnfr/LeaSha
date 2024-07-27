@@ -1,12 +1,20 @@
 @import "../../variables.scss";
 
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
 .login-page {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  height: 100vh;
-  padding: 0 20px;
+  height: 80vh;
+  overflow: hidden;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -15,18 +23,52 @@
 
 .registration-section,
 .login-section {
-  width: 35%;
-  margin: 10vw;
-
-  @media (max-width: 768px) {
-    width: 100%;
-    margin-bottom: 20px;
-  }
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  box-shadow: 0 0 20px 8px $leasha-white;
+  background-color: $leasha-dark-beige;
+  border-radius: 8px;
+  position: relative;
 }
 
-dialog {
-  position: fixed;
-  top: 50%;
-  width: 45%;
-  transform: translateY(-50%);
+.title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.error-message {
+  color: $leasha-red;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.required-legend {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  color: $leasha-black;
+  font-size: 0.75rem;
+  background-color: $leasha-white;
+  padding: 5px;
+  border-radius: 3px;
+  z-index: 10;
 }

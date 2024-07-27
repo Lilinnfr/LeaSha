@@ -57,6 +57,19 @@ export class AllCardMemosComponent implements OnInit {
     });
   }
 
+  onSubmit() {
+    if (this.addMemoForm.valid) {
+      if (this.selectedMemoId === null) {
+        this.addMemo();
+      } else {
+        this.updateMemo();
+      }
+    } else {
+      // on marque tous les champs comme touchés pour afficher les messages d'erreur
+      this.addMemoForm.markAllAsTouched();
+    }
+  }
+
   addMemo() {
     if (this.addMemoForm.valid) {
       const memo: CardMemo = {
@@ -96,9 +109,7 @@ export class AllCardMemosComponent implements OnInit {
             response
           );
           this.getMemos();
-          this.addMemoDialog.nativeElement.close();
-          this.addMemoForm.reset();
-          this.selectedMemoId = null;
+          this.closeDialog();
         },
         error: (error) => {
           console.error('Erreur lors de la modification du mémo', error);
@@ -111,8 +122,8 @@ export class AllCardMemosComponent implements OnInit {
   }
 
   editMemo(memo: CardMemo) {
-    this.submitButtonText = 'Modifier';
     this.selectedMemoId = memo.id!;
+    this.submitButtonText = 'Modifier';
     this.addMemoForm.patchValue({
       titre: memo.titre,
       categorie: memo.categorie,
@@ -150,9 +161,10 @@ export class AllCardMemosComponent implements OnInit {
   }
 
   closeDialog() {
+    this.selectedMemoId = null;
     this.submitButtonText = 'Ajouter';
-    this.addMemoDialog.nativeElement.close();
     this.addMemoForm.reset();
+    this.addMemoDialog.nativeElement.close();
   }
 
   toggleDescription(memoId: number) {

@@ -3,14 +3,14 @@
 .btn-style {
   padding: 10px 20px;
   margin: 10px;
-  border: 1px solid $leasha-black;
+  border: 1px solid $leasha-white;
   border-radius: 5px;
   background-color: $leasha-light-beige;
   color: $leasha-black;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 2px 2px 5px $leasha-white;
 }
 
 .btn-style:hover {
-  background-color: $leasha-dark-beige;
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+  background-color: $leasha-white;
+  box-shadow: 1px 1px 1px $leasha-white;
 }

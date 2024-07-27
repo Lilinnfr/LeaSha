@@ -6,16 +6,15 @@
 
 dialog {
   position: fixed;
-  padding: 20px;
   top: 25%;
-  min-width: 300px;
+  min-width: 420px;
   max-width: 90%;
   background-color: $leasha-light-beige;
   border-color: transparent;
   overflow: hidden;
   border-radius: 5px;
   box-shadow: 0 0 20px 8px #d0d0d0;
-  height: auto;
+  min-height: 350px;
 }
 
 .close-button {
@@ -108,4 +107,21 @@ dialog[open] {
 
 .end-review-dialog {
   height: 150px;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.required-legend {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  color: $leasha-black;
+  font-size: 0.75rem;
+  background-color: $leasha-white;
+  padding: 5px;
+  border-radius: 3px;
 }

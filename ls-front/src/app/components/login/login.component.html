@@ -1,73 +1,138 @@
-<div
-  class="d-flex justify-content-center align-items-center login-page"
-  style="height: 100vh"
->
+<div class="login-page">
   <div class="registration-section">
     <h2 class="title">Inscription</h2>
     <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
-      <app-leasha-input
-        *ngIf="registerForm.get('username') as registerUsernameControl"
-        [control]="registerUsernameControl"
-        id="register-username"
-        label="Pseudo :"
-        type="text"
-        name="username"
-        placeholder="Saisir un pseudo"
-      ></app-leasha-input>
-      <app-leasha-input
-        *ngIf="registerForm.get('email') as registerEmailControl"
-        [control]="registerEmailControl"
-        id="register-email"
-        label="Email :"
-        type="email"
-        name="email"
-        placeholder="Saisir un email"
-      ></app-leasha-input>
-      <app-leasha-input
-        *ngIf="registerForm.get('password') as registerPasswordControl"
-        [control]="registerPasswordControl"
-        id="register-password"
-        label="Mot de passe :"
-        type="password"
-        name="password"
-        placeholder="Saisir un mot de passe"
-      ></app-leasha-input>
-      <app-leasha-button
-        type="submit"
-        buttonText="S'inscrire"
-      ></app-leasha-button>
+      <div class="form-group">
+        <app-leasha-input
+          *ngIf="registerForm.get('username') as registerUsernameControl"
+          [control]="registerUsernameControl"
+          id="register-username"
+          label="Pseudo *:"
+          type="text"
+          name="username"
+          placeholder="Saisir un pseudo"
+        ></app-leasha-input>
+        <div
+          *ngIf="
+            registerForm.get('username')?.invalid &&
+            (registerForm.get('username')?.touched ||
+              registerForm.get('username')?.dirty)
+          "
+          class="error-message"
+        >
+          * Ce champ est obligatoire
+        </div>
+      </div>
+
+      <div class="form-group">
+        <app-leasha-input
+          *ngIf="registerForm.get('email') as registerEmailControl"
+          [control]="registerEmailControl"
+          id="register-email"
+          label="E-mail *:"
+          type="email"
+          name="email"
+          placeholder="Saisir un e-mail"
+        ></app-leasha-input>
+        <div
+          *ngIf="
+            registerForm.get('email')?.invalid &&
+            (registerForm.get('email')?.touched ||
+              registerForm.get('email')?.dirty)
+          "
+          class="error-message"
+        >
+          * Ce champ est obligatoire
+        </div>
+      </div>
+
+      <div class="form-group">
+        <app-leasha-input
+          *ngIf="registerForm.get('password') as registerPasswordControl"
+          [control]="registerPasswordControl"
+          id="register-password"
+          label="Mot de passe *:"
+          type="password"
+          name="password"
+          placeholder="Saisir un mot de passe"
+        ></app-leasha-input>
+        <div
+          *ngIf="
+            registerForm.get('password')?.invalid &&
+            (registerForm.get('password')?.touched ||
+              registerForm.get('password')?.dirty)
+          "
+          class="error-message"
+        >
+          * Ce champ est obligatoire
+        </div>
+      </div>
+
+      <div class="button-group">
+        <app-leasha-button
+          type="submit"
+          buttonText="S'inscrire"
+        ></app-leasha-button>
+      </div>
     </form>
+    <div class="required-legend">* Champ obligatoire</div>
   </div>
 
   <div class="login-section">
     <h2 class="title">Connexion</h2>
     <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-      <app-leasha-input
-        *ngIf="loginForm.get('username') as usernameControl"
-        [control]="usernameControl"
-        id="username"
-        label="Pseudo :"
-        type="text"
-        name="username"
-        placeholder="Saisir un pseudo"
-      ></app-leasha-input>
+      <div class="form-group">
+        <app-leasha-input
+          *ngIf="loginForm.get('username') as usernameControl"
+          [control]="usernameControl"
+          id="username"
+          label="E-mail *:"
+          type="text"
+          name="username"
+          placeholder="Saisir un e-mail"
+        ></app-leasha-input>
+        <div
+          *ngIf="
+            loginForm.get('username')?.invalid &&
+            (loginForm.get('username')?.touched ||
+              registerForm.get('username')?.dirty)
+          "
+          class="error-message"
+        >
+          * Ce champ est obligatoire
+        </div>
+      </div>
 
-      <app-leasha-input
-        *ngIf="loginForm.get('password') as passwordControl"
-        [control]="passwordControl"
-        id="pass"
-        label="Mot de passe :"
-        type="password"
-        name="password"
-        placeholder="Saisir un mot de passe"
-      ></app-leasha-input>
+      <div class="form-group">
+        <app-leasha-input
+          *ngIf="loginForm.get('password') as passwordControl"
+          [control]="passwordControl"
+          id="pass"
+          label="Mot de passe *:"
+          type="password"
+          name="password"
+          placeholder="Saisir un mot de passe"
+        ></app-leasha-input>
+        <div
+          *ngIf="
+            loginForm.get('password')?.invalid &&
+            (loginForm.get('password')?.touched ||
+              registerForm.get('password')?.dirty)
+          "
+          class="error-message"
+        >
+          * Ce champ est obligatoire
+        </div>
+      </div>
 
-      <app-leasha-button
-        type="submit"
-        buttonText="Se connecter"
-      ></app-leasha-button>
+      <div class="button-group">
+        <app-leasha-button
+          type="submit"
+          buttonText="Se connecter"
+        ></app-leasha-button>
+      </div>
     </form>
-
+    <div class="required-legend">* Champ obligatoire</div>
     <div *ngIf="errorMessage" class="alert alert-danger">
       {{ errorMessage }}
     </div>

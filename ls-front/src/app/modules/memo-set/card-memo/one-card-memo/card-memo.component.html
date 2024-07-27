@@ -37,41 +37,66 @@
 
 <dialog #addCardDialog>
   <div>
-    <h3 *ngIf="selectedCardId === null">Ajouter une carte</h3>
-    <h3 *ngIf="selectedCardId !== null">Modifier une carte</h3>
+    <h3>
+      {{ selectedCardId === null ? "Ajouter une carte" : "Modifier une carte" }}
+    </h3>
     <button class="close-button" (click)="closeDialog()">×</button>
-    <form
-      [formGroup]="addCardForm"
-      (ngSubmit)="selectedCardId === null ? addCard() : updateCard()"
-    >
-      <app-leasha-input
-        [control]="addCardForm.get('recto')"
-        id="recto"
-        label="Recto * :"
-        type="text"
-        class="input"
-        name="memo"
-        placeholder="Entrer le recto de la carte..."
-      ></app-leasha-input>
-      <app-leasha-input
-        [control]="addCardForm.get('verso')"
-        id="verso"
-        label="Verso * :"
-        type="text"
-        class="input"
-        name="verso"
-        placeholder="Entrer le verso de la carte..."
-      ></app-leasha-input>
-      <app-leasha-button
-        type="submit"
-        [buttonText]="submitButtonText"
-      ></app-leasha-button>
-      <app-leasha-button
-        type="button"
-        buttonText="Annuler"
-        (click)="closeDialog()"
-      ></app-leasha-button>
+    <form [formGroup]="addCardForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <app-leasha-input
+          [control]="addCardForm.get('recto')"
+          id="recto"
+          label="Recto * :"
+          type="text"
+          class="input"
+          name="memo"
+          placeholder="Entrer le recto de la carte..."
+        ></app-leasha-input>
+        <div
+          *ngIf="
+            addCardForm.get('recto')?.invalid &&
+            (addCardForm.get('recto')?.touched ||
+              addCardForm.get('recto')?.dirty)
+          "
+          class="error-message"
+        >
+          * Ce champ est obligatoire
+        </div>
+      </div>
+      <div class="form-group">
+        <app-leasha-input
+          [control]="addCardForm.get('verso')"
+          id="verso"
+          label="Verso * :"
+          type="text"
+          class="input"
+          name="verso"
+          placeholder="Entrer le verso de la carte..."
+        ></app-leasha-input>
+        <div
+          *ngIf="
+            addCardForm.get('verso')?.invalid &&
+            (addCardForm.get('verso')?.touched ||
+              addCardForm.get('verso')?.dirty)
+          "
+          class="error-message"
+        >
+          * Ce champ est obligatoire
+        </div>
+      </div>
+      <div class="button-group">
+        <app-leasha-button
+          type="submit"
+          [buttonText]="submitButtonText"
+        ></app-leasha-button>
+        <app-leasha-button
+          type="button"
+          buttonText="Annuler"
+          (click)="closeDialog()"
+        ></app-leasha-button>
+      </div>
     </form>
+    <div class="required-legend">* Champ obligatoire</div>
   </div>
 </dialog>
 

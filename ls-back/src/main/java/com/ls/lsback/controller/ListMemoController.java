@@ -21,7 +21,7 @@ public class ListMemoController {
         this.listMemoService = listMemoService;
     }
 
-    @GetMapping("/liste")
+    @GetMapping("/Mes mémos listes")
     public ResponseEntity<List<ListMemoEntity>> listMemoList() {
         List<ListMemoEntity> memos = listMemoService.listMemoListe();
         if (memos.isEmpty()) {

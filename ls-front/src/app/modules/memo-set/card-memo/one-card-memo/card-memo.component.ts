@@ -66,6 +66,19 @@ export class CardMemoComponent implements OnInit {
     }
   }
 
+  onSubmit() {
+    if (this.addCardForm.valid) {
+      if (this.selectedCardId === null) {
+        this.addCard();
+      } else {
+        this.updateCard();
+      }
+    } else {
+      // on marque tous les champs comme touchés pour afficher les messages d'erreur
+      this.addCardForm.markAllAsTouched();
+    }
+  }
+
   addCard() {
     if (this.addCardForm.valid) {
       const card: Card = {
@@ -106,9 +119,7 @@ export class CardMemoComponent implements OnInit {
             response
           );
           this.getCards();
-          this.addCardDialog.nativeElement.close();
-          this.addCardForm.reset();
-          this.selectedCardId = null;
+          this.closeDialog();
         },
         error: (error) => {
           console.error('Erreur lors de la modification de la carte', error);
@@ -121,8 +132,8 @@ export class CardMemoComponent implements OnInit {
   }
 
   editCard(card: Card) {
-    this.submitButtonText = 'Modifier';
     this.selectedCardId = card.id!;
+    this.submitButtonText = 'Modifier';
     this.addCardForm.patchValue({
       recto: card.recto,
       verso: card.verso,
@@ -159,9 +170,10 @@ export class CardMemoComponent implements OnInit {
   }
 
   closeDialog() {
+    this.selectedCardId = null;
     this.submitButtonText = 'Ajouter';
-    this.addCardDialog.nativeElement.close();
     this.addCardForm.reset();
+    this.addCardDialog.nativeElement.close();
   }
 
   openReviewDialog() {

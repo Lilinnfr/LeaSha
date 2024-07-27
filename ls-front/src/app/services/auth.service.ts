@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, catchError, tap, throwError } from 'rxjs';
 
 @Injectable({
@@ -10,7 +11,7 @@ export class AuthService {
   private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<any>;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private router: Router) {
     // On ititialise le constructeur avec l'utilisateur actuel, cela permet de maintenir sa session active
     const storedUser = localStorage.getItem('currentUser');
     if (storedUser) {
@@ -140,6 +141,7 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');
     this.updateUser(null);
+    this.router.navigate(['/']);
   }
 
   // Récupère le token stocké dans le stockage local
