@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Card } from '../models/card';
 import { AuthService } from '../../../services/auth.service';
+import { environment } from '../../../../environments/environments';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CardService {
-  readonly API_URL = 'http://localhost:8080';
+  readonly API_URL = environment.apiUrl;
 
   constructor(
     private httpClient: HttpClient,

@@ -51,6 +51,7 @@ public class ValidationService {
         this.notificationService.send(validation);
     }
 
+    // on récupère une validation par son code
     public ValidationEntity getValidationByCode(String code) {
         return this.validationRepository.findByCode(code).orElseThrow(() -> new RuntimeException("Votre code est invalide"));
     }

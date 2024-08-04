@@ -65,7 +65,7 @@ public class JwtService {
                 .build();
 
         this.jwtRepository.save(jwt);
-        jwtMap.put(REFRESH,  refreshToken.getValeur());
+        jwtMap.put(REFRESH, refreshToken.getValeur());
         return jwtMap;
     }
 

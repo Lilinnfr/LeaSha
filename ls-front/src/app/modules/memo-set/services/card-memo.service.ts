@@ -4,12 +4,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CardMemo } from '../models/card-memo';
 import { AuthService } from '../../../services/auth.service';
+import { environment } from '../../../../environments/environments';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CardMemoService {
-  readonly API_URL = 'http://localhost:8080';
+  readonly API_URL = environment.apiUrl;
 
   constructor(
     private httpClient: HttpClient,
