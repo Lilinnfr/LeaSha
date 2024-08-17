@@ -1,7 +1,6 @@
 export enum Category {
-  LANGUES = 'Langues',
-  FRANCAIS = 'Français',
-  MATHEMATIQUES = 'Mathématiques',
-  CUISINE = 'Cuisine',
-  AUTRES = 'Autres',
+  ANGLAIS = 'Anglais',
+  REGLES_CONJUGAISON = 'Règles de Conjugaison',
+  PROGRAMMATION_ORIENTEE_OBJET = 'Programmation Orientée Objet (POO)',
+  DEVELOPPEMENT_WEB_FRONT_END = 'Développement Web Front-end',
 }

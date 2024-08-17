@@ -2,6 +2,28 @@
 
 .container {
   padding-left: 280px;
+  padding-bottom: 30px;
+}
+
+.header {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  color: $leasha-grey;
+  margin-bottom: 0.5rem;
+}
+
+.header .category {
+  font-size: 1.2rem;
+  color: $leasha-grey;
+  font-weight: bold;
+}
+
+.header .category span {
+  color: $leasha-grey;
 }
 
 dialog {
@@ -29,17 +51,13 @@ dialog {
 
 .card {
   margin: 10px;
+  box-shadow: 2px 2px 5px $leasha-grey;
 }
 
 .card-body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-}
-
-.card-title {
-  font-size: 1.25rem;
-  font-weight: bold;
 }
 
 .card-text {

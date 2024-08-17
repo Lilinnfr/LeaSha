@@ -52,7 +52,7 @@ class CardMemoServiceTest {
         cardMemo.setDescription("Test Description");
         cardMemo.setDateCreation(new Timestamp(System.currentTimeMillis()));
         cardMemo.setDateModif(new Timestamp(System.currentTimeMillis()));
-        cardMemo.setCategorie(CategorieMemo.AUTRES);
+        cardMemo.setCategorie(CategorieMemo.ANGLAIS);
         cardMemo.setUtilisateur(utilisateur);
 
         when(authentication.getPrincipal()).thenReturn(utilisateur);

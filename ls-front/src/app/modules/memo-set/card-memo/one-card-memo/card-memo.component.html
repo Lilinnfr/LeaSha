@@ -9,6 +9,12 @@
     buttonText="Révision des cartes"
     (click)="openReviewDialog()"
   ></app-leasha-button>
+  <div class="header">
+    <h1>{{ memo?.titre }}</h1>
+    <p class="category">
+      Catégorie : <span>{{ memo?.categorie }}</span>
+    </p>
+  </div>
   <div class="row">
     <div class="col-md-4 col-sm-6 mb-4" *ngFor="let card of cards">
       <div class="card mb-4 box-shadow">

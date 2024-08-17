@@ -4,6 +4,7 @@ import { CardService } from '../../services/card.service';
 import { Card } from '../../models/card';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CardMemo } from '../../models/card-memo';
 
 @Component({
   selector: 'app-card-memo',
@@ -19,6 +20,7 @@ export class CardMemoComponent implements OnInit {
   @ViewChild('endReviewDialog') endReviewDialog!: ElementRef<HTMLDialogElement>;
 
   cards: Card[] = [];
+  memo: CardMemo | null = null;
   reviewedCards: Set<number> = new Set();
   addCardForm!: FormGroup;
   memoId: number = 0;
@@ -52,9 +54,18 @@ export class CardMemoComponent implements OnInit {
   getCards() {
     if (this.memoId) {
       this.cardService.getCardsByMemo(this.memoId).subscribe({
-        next: (datas: Card[]) => {
-          this.cards = datas;
-          console.log(this.cards);
+        next: (cards: Card[]) => {
+          this.cards = cards;
+          console.log('Réponse cards:', this.cards);
+          this.cardService.getMemo(this.memoId).subscribe({
+            next: (memo: CardMemo) => {
+              this.memo = memo;
+              console.log('Réponse memo:', this.memo);
+            },
+            error: (error) => {
+              console.error('Erreur lors de la récupération du mémo', error);
+            },
+          });
         },
         error: (error) => {
           console.error('Erreur lors de la récupération des cartes', error);

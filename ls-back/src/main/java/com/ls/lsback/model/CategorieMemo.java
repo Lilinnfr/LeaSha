@@ -5,11 +5,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum CategorieMemo {
 
-    LANGUES("Langues"),
-    FRANCAIS("Français"),
-    MATHEMATIQUES("Mathématiques"),
-    CUISINE("Cuisine"),
-    AUTRES("Autres");
+    ANGLAIS("Anglais"),
+    FRANCAIS_CONJUGAISON("Français - Règles de Conjugaison"),
+    PROGRAMMATION_ORIENTEE_OBJET("Programmation Orientée Objet (POO)"),
+    DEVELOPPEMENT_WEB_FRONT_END("Développement Web Front-end");
 
     private final String libelle;
 
