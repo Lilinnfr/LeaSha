@@ -16,19 +16,19 @@
 }
 
 .btn-outline-secondary {
-  color: $leasha-black;
+  color: $leasha-grey;
   background-color: $leasha-dark-beige !important;
 }
 
 body {
   display: flex;
   flex-direction: column;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-size: 17px;
+  font-family: "Londrina Solid", "Noto Sans", "Arial", "Helvetica";
+  font-size: 20px;
   height: 100vh;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  color: $leasha-black;
+  color: $leasha-grey;
   background-color: $leasha-light-beige;
 }

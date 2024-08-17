@@ -31,12 +31,13 @@ dialog {
   top: 25%;
   min-width: 420px;
   max-width: 90%;
-  background-color: $leasha-light-beige;
+  background-color: $leasha-dark-beige;
   border-color: transparent;
   overflow: hidden;
   border-radius: 5px;
   box-shadow: 0 0 20px 8px #d0d0d0;
-  min-height: 350px;
+  padding: 20px;
+  min-height: auto;
 }
 
 .close-button {
@@ -62,6 +63,7 @@ dialog {
 
 .card-text {
   font-size: 1.5rem;
+  font-family: "Noto Sans";
 }
 
 .button-group {
@@ -93,7 +95,7 @@ dialog {
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  background-color: $leasha-light-beige;
+  background-color: $leasha-dark-beige;
   border-radius: 5px;
   box-shadow: 0 0 20px 8px #d0d0d0;
 }
@@ -112,7 +114,7 @@ dialog[open] {
   padding: 20px;
   border: 2px solid #333;
   border-radius: 10px;
-  background-color: #fff;
+  background-color: $leasha-white;
   font-size: 2rem;
   text-align: center;
 }
@@ -124,11 +126,15 @@ dialog[open] {
 }
 
 .end-review-dialog {
-  height: 150px;
+  transform: translateY(-150px);
+}
+
+.delete-dialog {
+  transform: translateY(100px);
 }
 
 .error-message {
-  color: red;
+  color: $leasha-red;
   font-size: 0.875rem;
   margin-top: 0.25rem;
 }
@@ -137,7 +143,7 @@ dialog[open] {
   position: absolute;
   bottom: 10px;
   right: 10px;
-  color: $leasha-black;
+  color: $leasha-grey;
   font-size: 0.75rem;
   background-color: $leasha-white;
   padding: 5px;

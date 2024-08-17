@@ -8,7 +8,6 @@ import { ListMemoComponent } from './modules/memo-set/list-memo/list-memo.compon
 import { CardMemoComponent } from './modules/memo-set/card-memo/one-card-memo/card-memo.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { MemoSetComponent } from './modules/memo-set/memo-set.component';
 import { LoginComponent } from './components/login/login.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -24,7 +23,6 @@ import { ReactiveFormsModule } from '@angular/forms';
   declarations: [
     AppComponent,
     HomeComponent,
-    MemoSetComponent,
     ListMemoComponent,
     CardMemoComponent,
     NavbarComponent,

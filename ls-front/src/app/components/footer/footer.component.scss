@@ -1,8 +1,37 @@
 @import "../../variables.scss";
 
-footer {
-  bottom: 0px;
-  width: 100%;
-  flex-shrink: 0;
+.footer {
   background-color: $leasha-dark-beige;
+  color: $leasha-white;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.contact-link {
+  margin-right: auto;
+}
+
+.footer-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-logo {
+  height: 50px;
+  width: auto;
+}
+
+.copyright {
+  margin: 0;
+  font-size: 0.75rem;
 }

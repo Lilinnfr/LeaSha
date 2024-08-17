@@ -2,15 +2,15 @@
 
 nav {
   background-color: $leasha-dark-beige;
+  border-bottom: solid 1px $leasha-grey;
 }
 
 .navbar-nav .nav-item .nav-link {
   padding: 10px 20px;
-  margin: 10px;
   border: 1px solid $leasha-white;
   border-radius: 5px;
   background-color: $leasha-light-beige;
-  color: $leasha-black;
+  color: $leasha-grey;
   box-shadow: 2px 2px 5px $leasha-white;
 }
 
@@ -19,6 +19,11 @@ nav {
   border-color: $leasha-white;
   border-radius: 5px;
   box-shadow: 1px 1px 1px $leasha-white;
+}
+
+.navbar-logo {
+  height: 70px;
+  width: auto;
 }
 
 .input-group {
@@ -39,7 +44,7 @@ nav {
   border: 1px solid $leasha-white;
   border-radius: 0 5px 5px 0;
   background-color: $leasha-light-beige;
-  color: $leasha-black;
+  color: $leasha-grey;
   box-shadow: 2px 2px 5px $leasha-white;
   position: relative;
   z-index: 2;
