@@ -43,28 +43,15 @@
             >
           </li>
           <li>
-            <a [routerLink]="['/Mes mémos listes']" class="dropdown-item"
+            <a
+              [routerLink]="['/memoListe/Mes mémos listes']"
+              class="dropdown-item"
               >Mes listes</a
             >
-          </li>
-          <li>
-            <a [routerLink]="['/Mes quiz']" class="dropdown-item">Mes quiz</a>
           </li>
         </ul>
       </li>
     </ul>
-
-    <form class="form-inline my-2 my-lg-0">
-      <div class="input-group">
-        <input
-          class="form-control mr-sm-2 searchInput"
-          type="search"
-          placeholder="Rechercher..."
-          aria-label="Search"
-        />
-        <button type="submit" class="searchButton">Rechercher</button>
-      </div>
-    </form>
 
     <div class="ml-auto">
       @if (!currentUser) {

@@ -41,4 +41,8 @@ public class ListMemoEntity {
     @Enumerated(EnumType.STRING)
     private CategorieMemo categorie;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "utilisateur_id", referencedColumnName = "id")
+    private UtilisateurEntity utilisateur;
+
 }

@@ -6,11 +6,15 @@ import java.util.List;
 
 public interface ListMemoService {
 
-    List<ListMemoEntity> listMemoListe();
+    List<ListMemoEntity> listMemoListe(String email);
 
     ListMemoEntity getMemoListe(long id);
 
+    ListMemoEntity save(ListMemoEntity listMemoEntity);
+
     ListMemoEntity addMemoListe(ListMemoEntity listMemoEntity);
 
-    boolean deleteMemoListe(long id);
+    ListMemoEntity updateMemoListe(long id, ListMemoEntity listMemoEntity);
+
+    void deleteMemoListe(long id);
 }

@@ -29,7 +29,8 @@ public class CardMemoServiceImpl implements CardMemoService {
 
     @Override
     public CardMemoEntity getMemoCarte(long id) {
-        return cardMemoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Mémo non trouvé avec ID " + id));
+        return cardMemoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Mémo non trouvé avec ID " + id));
     }
 
     @Override

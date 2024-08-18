@@ -1,0 +1,32 @@
+<app-sidebar></app-sidebar>
+
+<div class="container">
+  <h2>{{ listMemoForm.get("titre")?.value }}</h2>
+  <p class="description">{{ listMemoForm.get("description")?.value }}</p>
+
+  <form [formGroup]="listMemoForm" (ngSubmit)="saveList()">
+    <div class="list-group">
+      <textarea
+        class="form-control"
+        rows="10"
+        formControlName="liste"
+        placeholder="Écrivez votre liste ici..."
+      ></textarea>
+    </div>
+
+    <div *ngIf="successMessage" class="alert alert-success mt-3">
+      {{ successMessage }}
+    </div>
+
+    <div class="button-group mt-3">
+      <app-leasha-button
+        buttonText="Sauvegarder"
+        type="submit"
+      ></app-leasha-button>
+      <app-leasha-button
+        buttonText="Retour"
+        (click)="cancel()"
+      ></app-leasha-button>
+    </div>
+  </form>
+</div>

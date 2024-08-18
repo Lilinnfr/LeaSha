@@ -1,0 +1,149 @@
+<app-sidebar></app-sidebar>
+
+<div class="container">
+  <div>
+    <app-leasha-button
+      buttonText="Ajouter un mémo"
+      (click)="addMemoDialog.show()"
+    ></app-leasha-button>
+  </div>
+  <div class="row">
+    <div class="col-md-4 col-sm-6 mb-4" *ngFor="let listMemo of listMemos">
+      <div class="card mb-4 box-shadow">
+        <div class="card-body d-flex flex-column justify-content-between">
+          <h5 class="card-title">{{ listMemo.titre }}</h5>
+          <a
+            [routerLink]="['/memoListe/Mes mémos listes/', listMemo.id]"
+            class="btn btn-style mt-2"
+            >Voir le mémo</a
+          >
+          <div class="description-container mt-2">
+            <button
+              class="btn btn-link description-toggle"
+              *ngIf="listMemo.id"
+              (click)="toggleDescription(listMemo.id)"
+            >
+              {{ isDescriptionVisible[listMemo.id] ? "▼" : "►" }} Afficher
+              description
+            </button>
+            <p
+              *ngIf="listMemo.id && isDescriptionVisible[listMemo.id]"
+              class="card-text mt-2"
+            >
+              {{ listMemo.description }}
+            </p>
+          </div>
+          <div
+            class="button-group mt-2 d-flex flex-column flex-sm-row justify-content-between align-items-stretch"
+          >
+            <app-leasha-button
+              buttonText="Modifier"
+              class="btn-sm mb-2 mb-sm-0 btn-responsive"
+              (click)="editMemo(listMemo)"
+            ></app-leasha-button>
+            <app-leasha-button
+              buttonText="Supprimer"
+              class="btn-sm btn-responsive"
+              (click)="openDeleteConfirmDialog(listMemo.id!)"
+            ></app-leasha-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<dialog #addMemoDialog>
+  <div class="dialog-content">
+    <h3>
+      {{ selectedMemoId === null ? "Ajouter un mémo" : "Modifier un mémo" }}
+    </h3>
+    <button class="close-button" (click)="closeDialog()">×</button>
+    <form [formGroup]="addMemoForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <app-leasha-input
+          [control]="addMemoForm.get('titre')"
+          id="memo"
+          label="Titre * :"
+          type="text"
+          name="memo"
+          placeholder="Saisir le titre du mémo..."
+        ></app-leasha-input>
+        <div
+          *ngIf="
+            addMemoForm.get('titre')?.invalid &&
+            (addMemoForm.get('titre')?.touched ||
+              addMemoForm.get('titre')?.dirty)
+          "
+          class="error-message"
+        >
+          * Ce champ est obligatoire
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="label">Type de mémo * :</label>
+        <select class="form-select mb-2" formControlName="categorie">
+          <option value="" disabled selected hidden>
+            Sélectionner un type de mémo
+          </option>
+          <option
+            *ngFor="let categorie of categories"
+            [value]="categorie.libelle"
+          >
+            {{ categorie.libelle }}
+          </option>
+        </select>
+        <div
+          *ngIf="
+            addMemoForm.get('categorie')?.invalid &&
+            (addMemoForm.get('categorie')?.touched ||
+              addMemoForm.get('categorie')?.dirty)
+          "
+          class="error-message"
+        >
+          * Ce champ est obligatoire
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="label">Description :</label>
+        <textarea
+          id="description"
+          name="description"
+          class="form-control mb-2"
+          rows="5"
+          placeholder="Saisir une description..."
+          formControlName="description"
+        ></textarea>
+      </div>
+      <div class="button-group">
+        <app-leasha-button
+          type="submit"
+          [buttonText]="submitButtonText"
+        ></app-leasha-button>
+        <app-leasha-button
+          type="button"
+          buttonText="Annuler"
+          (click)="closeDialog()"
+        ></app-leasha-button>
+      </div>
+    </form>
+    <div class="required-legend">* Champ obligatoire</div>
+  </div>
+</dialog>
+
+<dialog #confirmDeleteDialog class="delete-dialog">
+  <div>
+    <h3>Confirmer la suppression</h3>
+    <p>Êtes-vous sûr de vouloir supprimer ce mémo ?</p>
+    <div class="d-flex justify-content-end">
+      <app-leasha-button
+        buttonText="Annuler"
+        (click)="closeConfirmDeleteDialog()"
+      ></app-leasha-button>
+      <app-leasha-button
+        buttonText="Confirmer"
+        (click)="confirmDeleteMemo()"
+      ></app-leasha-button>
+    </div>
+  </div>
+</dialog>
