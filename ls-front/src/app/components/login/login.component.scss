@@ -8,6 +8,20 @@ body {
   overflow: hidden;
 }
 
+dialog {
+  position: fixed;
+  top: 25%;
+  min-width: 500px;
+  max-width: 90%;
+  background-color: $leasha-dark-beige;
+  border-color: transparent;
+  overflow: hidden;
+  border-radius: 5px;
+  box-shadow: 0 0 20px 8px $leasha-white;
+  max-height: 300px;
+  transform: translateY(-200px);
+}
+
 .login-page {
   display: flex;
   flex-direction: row;

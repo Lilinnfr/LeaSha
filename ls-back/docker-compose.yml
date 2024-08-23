@@ -1,0 +1,22 @@
+---
+services:
+  postgres:
+    image: postgres:latest
+    container_name: my_db_postgres
+    environment:
+      POSTGRES_DB: leasha
+      POSTGRES_USER: lilinn
+      POSTGRES_PASSWORD: mulato
+    ports:
+      - 5434:5432
+  backend:
+    image: leasha:0.0.1-SNAPSHOT
+    container_name: my_ls-back
+    depends_on:
+      - postgres
+    ports:
+      - 8090:8080
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5434/leasha
+      SPRING_DATASOURCE_USERNAME: lilinn
+      SPRING_DATASOURCE_PASSWORD: mulato

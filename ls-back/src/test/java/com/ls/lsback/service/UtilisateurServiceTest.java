@@ -139,7 +139,7 @@ class UtilisateurServiceTest {
         Exception exception = assertThrows(UsernameNotFoundException.class, () -> {
             utilisateurService.loadUserByUsername("nonexistentuser@example.com");
         });
-        assertEquals("Aucun utilisateur ne correspond à cet identifiant", exception.getMessage());
+        assertEquals("Aucun utilisateur ne correspond à cet email", exception.getMessage());
     }
 
     @Test
